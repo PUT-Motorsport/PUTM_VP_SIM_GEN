@@ -7,12 +7,12 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.40
+ * Model version                  : 1.44
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed May 28 17:21:41 2025
+ * C/C++ source code generated on : Mon Aug 11 17:54:13 2025
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Windows64)
+ * Embedded hardware selection: Intel->x86-64 (Linux 64)
  * Code generation objectives: Unspecified
  * Validation result: Not run
  */

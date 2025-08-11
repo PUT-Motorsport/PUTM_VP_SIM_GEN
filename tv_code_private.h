@@ -7,12 +7,12 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.40
+ * Model version                  : 1.44
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed May 28 17:21:41 2025
+ * C/C++ source code generated on : Mon Aug 11 17:54:13 2025
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Windows64)
+ * Embedded hardware selection: Intel->x86-64 (Linux 64)
  * Code generation objectives: Unspecified
  * Validation result: Not run
  */
@@ -36,9 +36,15 @@
 #define rtmSetTPtr(rtm, val)           ((rtm)->Timing.t = (val))
 #endif
 
+extern real_T look1_binlxpw(real_T u0, const real_T bp0[], const real_T table[],
+  uint32_T maxIndex);
+extern real_T look2_binlxpw(real_T u0, real_T u1, const real_T bp0[], const
+  real_T bp1[], const real_T table[], const uint32_T maxIndex[], uint32_T stride);
 extern void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW);
 extern void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
   DW_ax_filter_tv_code_T *localDW);
+extern void tv_code_MATLABFunction(const real_T rtu_data[4221], real_T
+  rtu_torque_req, real_T rtu_row_num, real_T *rty_idx);
 extern void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW);
 
 /* private model entry point functions */
