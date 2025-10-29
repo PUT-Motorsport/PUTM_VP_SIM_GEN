@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.47
+ * Model version                  : 1.48
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Fri Oct  3 14:30:30 2025
+ * C/C++ source code generated on : Wed Oct 29 15:40:41 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Linux 64)
@@ -21,8 +21,8 @@
 #include "rtwtypes.h"
 #include "tv_code_private.h"
 #include "tv_code_types.h"
-#include "rt_nonfinite.h"
 #include <math.h>
+#include "rt_nonfinite.h"
 
 /* Block signals (default storage) */
 B_tv_code_T tv_code_B;
@@ -36,165 +36,6 @@ DW_tv_code_T tv_code_DW;
 /* Real-time model */
 static RT_MODEL_tv_code_T tv_code_M_;
 RT_MODEL_tv_code_T *const tv_code_M = &tv_code_M_;
-real_T look1_binlxpw(real_T u0, const real_T bp0[], const real_T table[],
-                     uint32_T maxIndex)
-{
-  real_T frac;
-  real_T yL_0d0;
-  uint32_T iLeft;
-
-  /* Column-major Lookup 1-D
-     Search method: 'binary'
-     Use previous index: 'off'
-     Interpolation method: 'Linear point-slope'
-     Extrapolation method: 'Linear'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Remove protection against out-of-range input in generated code: 'off'
-   */
-  /* Prelookup - Index and Fraction
-     Index Search method: 'binary'
-     Extrapolation method: 'Linear'
-     Use previous index: 'off'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Remove protection against out-of-range input in generated code: 'off'
-   */
-  if (u0 <= bp0[0U]) {
-    iLeft = 0U;
-    frac = (u0 - bp0[0U]) / (bp0[1U] - bp0[0U]);
-  } else if (u0 < bp0[maxIndex]) {
-    uint32_T bpIdx;
-    uint32_T iRght;
-
-    /* Binary Search */
-    bpIdx = maxIndex >> 1U;
-    iLeft = 0U;
-    iRght = maxIndex;
-    while (iRght - iLeft > 1U) {
-      if (u0 < bp0[bpIdx]) {
-        iRght = bpIdx;
-      } else {
-        iLeft = bpIdx;
-      }
-
-      bpIdx = (iRght + iLeft) >> 1U;
-    }
-
-    frac = (u0 - bp0[iLeft]) / (bp0[iLeft + 1U] - bp0[iLeft]);
-  } else {
-    iLeft = maxIndex - 1U;
-    frac = (u0 - bp0[maxIndex - 1U]) / (bp0[maxIndex] - bp0[maxIndex - 1U]);
-  }
-
-  /* Column-major Interpolation 1-D
-     Interpolation method: 'Linear point-slope'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Overflow mode: 'portable wrapping'
-   */
-  yL_0d0 = table[iLeft];
-  return (table[iLeft + 1U] - yL_0d0) * frac + yL_0d0;
-}
-
-real_T look2_binlxpw(real_T u0, real_T u1, const real_T bp0[], const real_T bp1[],
-                     const real_T table[], const uint32_T maxIndex[], uint32_T
-                     stride)
-{
-  real_T fractions[2];
-  real_T frac;
-  real_T yL_0d0;
-  real_T yL_0d1;
-  uint32_T bpIndices[2];
-  uint32_T bpIdx;
-  uint32_T iLeft;
-  uint32_T iRght;
-
-  /* Column-major Lookup 2-D
-     Search method: 'binary'
-     Use previous index: 'off'
-     Interpolation method: 'Linear point-slope'
-     Extrapolation method: 'Linear'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Remove protection against out-of-range input in generated code: 'off'
-   */
-  /* Prelookup - Index and Fraction
-     Index Search method: 'binary'
-     Extrapolation method: 'Linear'
-     Use previous index: 'off'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Remove protection against out-of-range input in generated code: 'off'
-   */
-  if (u0 <= bp0[0U]) {
-    iLeft = 0U;
-    frac = (u0 - bp0[0U]) / (bp0[1U] - bp0[0U]);
-  } else if (u0 < bp0[maxIndex[0U]]) {
-    /* Binary Search */
-    bpIdx = maxIndex[0U] >> 1U;
-    iLeft = 0U;
-    iRght = maxIndex[0U];
-    while (iRght - iLeft > 1U) {
-      if (u0 < bp0[bpIdx]) {
-        iRght = bpIdx;
-      } else {
-        iLeft = bpIdx;
-      }
-
-      bpIdx = (iRght + iLeft) >> 1U;
-    }
-
-    frac = (u0 - bp0[iLeft]) / (bp0[iLeft + 1U] - bp0[iLeft]);
-  } else {
-    iLeft = maxIndex[0U] - 1U;
-    frac = (u0 - bp0[maxIndex[0U] - 1U]) / (bp0[maxIndex[0U]] - bp0[maxIndex[0U]
-      - 1U]);
-  }
-
-  fractions[0U] = frac;
-  bpIndices[0U] = iLeft;
-
-  /* Prelookup - Index and Fraction
-     Index Search method: 'binary'
-     Extrapolation method: 'Linear'
-     Use previous index: 'off'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Remove protection against out-of-range input in generated code: 'off'
-   */
-  if (u1 <= bp1[0U]) {
-    iLeft = 0U;
-    frac = (u1 - bp1[0U]) / (bp1[1U] - bp1[0U]);
-  } else if (u1 < bp1[maxIndex[1U]]) {
-    /* Binary Search */
-    bpIdx = maxIndex[1U] >> 1U;
-    iLeft = 0U;
-    iRght = maxIndex[1U];
-    while (iRght - iLeft > 1U) {
-      if (u1 < bp1[bpIdx]) {
-        iRght = bpIdx;
-      } else {
-        iLeft = bpIdx;
-      }
-
-      bpIdx = (iRght + iLeft) >> 1U;
-    }
-
-    frac = (u1 - bp1[iLeft]) / (bp1[iLeft + 1U] - bp1[iLeft]);
-  } else {
-    iLeft = maxIndex[1U] - 1U;
-    frac = (u1 - bp1[maxIndex[1U] - 1U]) / (bp1[maxIndex[1U]] - bp1[maxIndex[1U]
-      - 1U]);
-  }
-
-  /* Column-major Interpolation 2-D
-     Interpolation method: 'Linear point-slope'
-     Use last breakpoint for index at or above upper limit: 'off'
-     Overflow mode: 'portable wrapping'
-   */
-  bpIdx = iLeft * stride + bpIndices[0U];
-  yL_0d0 = table[bpIdx];
-  yL_0d0 += (table[bpIdx + 1U] - yL_0d0) * fractions[0U];
-  bpIdx += stride;
-  yL_0d1 = table[bpIdx];
-  return (((table[bpIdx + 1U] - yL_0d1) * fractions[0U] + yL_0d1) - yL_0d0) *
-    frac + yL_0d0;
-}
 
 /*
  * This function updates continuous states using the ODE4 fixed-step
@@ -214,7 +55,7 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
   real_T *f3 = id->f[3];
   real_T temp;
   int_T i;
-  int_T nXc = 2;
+  int_T nXc = 1;
   rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
 
   /* Save the state values at time t in y, we'll use x as ynew. */
@@ -267,16 +108,144 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
 }
 
 /* System initialize for atomic system: */
-void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW)
+void tv_code_LowpassFilter_Init(DW_LowpassFilter_tv_code_T *localDW)
 {
   b_dspcodegen_FIRFilter_tv_cod_T *iobj_0;
+  int32_T i;
+  static const real_T tmp[17] = { 0.014074606922661284, -0.042838893432462,
+    0.017762700917229431, 0.047520322185601614, -0.018747841017485233,
+    -0.094954013206475632, 0.021190058476452077, 0.31432768517685217,
+    0.47768194760527544, 0.31432768517685217, 0.021190058476452077,
+    -0.094954013206475632, -0.018747841017485233, 0.047520322185601614,
+    0.017762700917229431, -0.042838893432462, 0.014074606922661284 };
+
+  /* Start for MATLABSystem: '<S3>/Lowpass Filter' */
+  localDW->obj._pobj0.matlabCodegenIsDeleted = true;
+  localDW->obj.NumChannels = -1;
+  localDW->obj.matlabCodegenIsDeleted = false;
+  localDW->objisempty = true;
+  localDW->obj.isInitialized = 1;
+  if (localDW->obj.NumChannels == -1) {
+    localDW->obj.NumChannels = 1;
+  }
+
+  iobj_0 = &localDW->obj._pobj0;
+  localDW->obj._pobj0.isInitialized = 0;
+  localDW->obj._pobj0.isInitialized = 0;
+
+  /* System object Constructor function: dsp.FIRFilter */
+  localDW->obj._pobj0.cSFunObject.P0_InitialStates = 0.0;
+  for (i = 0; i < 17; i++) {
+    iobj_0->cSFunObject.P1_Coefficients[i] = tmp[i];
+  }
+
+  localDW->obj._pobj0.matlabCodegenIsDeleted = false;
+  localDW->obj.FilterObj = &localDW->obj._pobj0;
+  localDW->obj.isSetupComplete = true;
+
+  /* End of Start for MATLABSystem: '<S3>/Lowpass Filter' */
+
+  /* InitializeConditions for MATLABSystem: '<S3>/Lowpass Filter' */
+  iobj_0 = localDW->obj.FilterObj;
+  if (iobj_0->isInitialized == 1) {
+    /* System object Initialization function: dsp.FIRFilter */
+    for (i = 0; i < 16; i++) {
+      iobj_0->cSFunObject.W0_states[i] = iobj_0->cSFunObject.P0_InitialStates;
+    }
+  }
+
+  /* End of InitializeConditions for MATLABSystem: '<S3>/Lowpass Filter' */
+}
+
+/* Output and update for atomic system: */
+void tv_code_LowpassFilter(real_T rtu_0, B_LowpassFilter_tv_code_T *localB,
+  DW_LowpassFilter_tv_code_T *localDW)
+{
+  b_dsp_FIRFilter_0_tv_code_T *obj_0;
+  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+  real_T acc1;
+  real_T zCurr;
+  real_T zNext;
+  int32_T n;
+
+  /* MATLABSystem: '<S3>/Lowpass Filter' */
+  obj = localDW->obj.FilterObj;
+  if (obj->isInitialized != 1) {
+    obj->isSetupComplete = false;
+    obj->isInitialized = 1;
+    obj->isSetupComplete = true;
+
+    /* System object Initialization function: dsp.FIRFilter */
+    for (n = 0; n < 16; n++) {
+      obj->cSFunObject.W0_states[n] = obj->cSFunObject.P0_InitialStates;
+    }
+  }
+
+  obj_0 = &obj->cSFunObject;
+
+  /* System object Outputs function: dsp.FIRFilter */
+  acc1 = 0.0;
+
+  /* load input sample */
+  zNext = rtu_0;
+  for (n = 0; n < 16; n++) {
+    /* shift state */
+    zCurr = zNext;
+    zNext = obj_0->W0_states[n];
+    obj_0->W0_states[n] = zCurr;
+
+    /* compute one tap */
+    zCurr *= obj_0->P1_Coefficients[n];
+    acc1 += zCurr;
+  }
+
+  /* compute last tap */
+  zCurr = obj->cSFunObject.P1_Coefficients[n] * zNext;
+
+  /* MATLABSystem: '<S3>/Lowpass Filter' */
+  /* store output sample */
+  localB->LowpassFilter = acc1 + zCurr;
+}
+
+/* Termination for atomic system: */
+void tv_code_LowpassFilter_Term(DW_LowpassFilter_tv_code_T *localDW)
+{
+  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+
+  /* Terminate for MATLABSystem: '<S3>/Lowpass Filter' */
+  if (!localDW->obj.matlabCodegenIsDeleted) {
+    localDW->obj.matlabCodegenIsDeleted = true;
+    if ((localDW->obj.isInitialized == 1) && localDW->obj.isSetupComplete) {
+      obj = localDW->obj.FilterObj;
+      if (obj->isInitialized == 1) {
+        obj->isInitialized = 2;
+      }
+
+      localDW->obj.NumChannels = -1;
+    }
+  }
+
+  if (!localDW->obj._pobj0.matlabCodegenIsDeleted) {
+    localDW->obj._pobj0.matlabCodegenIsDeleted = true;
+    if (localDW->obj._pobj0.isInitialized == 1) {
+      localDW->obj._pobj0.isInitialized = 2;
+    }
+  }
+
+  /* End of Terminate for MATLABSystem: '<S3>/Lowpass Filter' */
+}
+
+/* System initialize for atomic system: */
+void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW)
+{
+  b_dspcodegen_FIRFilter_tv_c_l_T *iobj_0;
   int32_T i;
   static const real_T tmp[9] = { -0.005412996192943418, -0.00037695464995368688,
     0.082835378892191724, 0.25136596710560233, 0.34706570862151792,
     0.25136596710560233, 0.082835378892191724, -0.00037695464995368688,
     -0.005412996192943418 };
 
-  /* Start for MATLABSystem: '<S2>/ax_filter' */
+  /* Start for MATLABSystem: '<S3>/ax_filter' */
   localDW->obj._pobj0.matlabCodegenIsDeleted = true;
   localDW->obj.NumChannels = -1;
   localDW->obj.matlabCodegenIsDeleted = false;
@@ -300,9 +269,9 @@ void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW)
   localDW->obj.FilterObj = &localDW->obj._pobj0;
   localDW->obj.isSetupComplete = true;
 
-  /* End of Start for MATLABSystem: '<S2>/ax_filter' */
+  /* End of Start for MATLABSystem: '<S3>/ax_filter' */
 
-  /* InitializeConditions for MATLABSystem: '<S2>/ax_filter' */
+  /* InitializeConditions for MATLABSystem: '<S3>/ax_filter' */
   iobj_0 = localDW->obj.FilterObj;
   if (iobj_0->isInitialized == 1) {
     /* System object Initialization function: dsp.FIRFilter */
@@ -311,21 +280,21 @@ void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW)
     }
   }
 
-  /* End of InitializeConditions for MATLABSystem: '<S2>/ax_filter' */
+  /* End of InitializeConditions for MATLABSystem: '<S3>/ax_filter' */
 }
 
 /* Output and update for atomic system: */
 void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
   DW_ax_filter_tv_code_T *localDW)
 {
-  b_dsp_FIRFilter_0_tv_code_T *obj_0;
-  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+  b_dsp_FIRFilter_0_tv_code_a_T *obj_0;
+  b_dspcodegen_FIRFilter_tv_c_l_T *obj;
   real_T acc1;
   real_T zCurr;
   real_T zNext;
   int32_T n;
 
-  /* MATLABSystem: '<S2>/ax_filter' */
+  /* MATLABSystem: '<S3>/ax_filter' */
   obj = localDW->obj.FilterObj;
   if (obj->isInitialized != 1) {
     obj->isSetupComplete = false;
@@ -359,7 +328,7 @@ void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
   /* compute last tap */
   zCurr = obj->cSFunObject.P1_Coefficients[n] * zNext;
 
-  /* MATLABSystem: '<S2>/ax_filter' */
+  /* MATLABSystem: '<S3>/ax_filter' */
   /* store output sample */
   localB->ax_filter = acc1 + zCurr;
 }
@@ -367,9 +336,9 @@ void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
 /* Termination for atomic system: */
 void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW)
 {
-  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+  b_dspcodegen_FIRFilter_tv_c_l_T *obj;
 
-  /* Terminate for MATLABSystem: '<S2>/ax_filter' */
+  /* Terminate for MATLABSystem: '<S3>/ax_filter' */
   if (!localDW->obj.matlabCodegenIsDeleted) {
     localDW->obj.matlabCodegenIsDeleted = true;
     if ((localDW->obj.isInitialized == 1) && localDW->obj.isSetupComplete) {
@@ -389,69 +358,14 @@ void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW)
     }
   }
 
-  /* End of Terminate for MATLABSystem: '<S2>/ax_filter' */
-}
-
-/*
- * Output and update for atomic system:
- *    '<S16>/MATLAB Function'
- *    '<S16>/MATLAB Function1'
- *    '<S16>/MATLAB Function2'
- *    '<S16>/MATLAB Function3'
- */
-void tv_code_MATLABFunction(const real_T rtu_data[4221], real_T rtu_torque_req,
-  real_T rtu_row_num, real_T *rty_idx)
-{
-  real_T differences[21];
-  int32_T idx;
-  int32_T iindx;
-  int32_T k;
-  for (k = 0; k < 21; k++) {
-    differences[k] = fabs(rtu_data[(201 * k + (int32_T)rtu_row_num) - 1] -
-                          rtu_torque_req);
-  }
-
-  if (!rtIsNaN(differences[0])) {
-    idx = 1;
-  } else {
-    boolean_T exitg1;
-    idx = 0;
-    k = 2;
-    exitg1 = false;
-    while ((!exitg1) && (k < 22)) {
-      if (!rtIsNaN(differences[k - 1])) {
-        idx = k;
-        exitg1 = true;
-      } else {
-        k++;
-      }
-    }
-  }
-
-  if (idx == 0) {
-    iindx = 1;
-  } else {
-    real_T ex;
-    ex = differences[idx - 1];
-    iindx = idx;
-    for (k = idx + 1; k < 22; k++) {
-      real_T tmp;
-      tmp = differences[k - 1];
-      if (ex > tmp) {
-        ex = tmp;
-        iindx = k;
-      }
-    }
-  }
-
-  *rty_idx = iindx;
+  /* End of Terminate for MATLABSystem: '<S3>/ax_filter' */
 }
 
 /* Model step function */
 void tv_code_step(void)
 {
-  real_T Sum_d_tmp;
-  real_T u2_tmp;
+  real_T Sum_tmp;
+  real_T Sum_tmp_1;
   if (rtmIsMajorTimeStep(tv_code_M)) {
     /* set solver stop time */
     rtsiSetSolverStopTime(&tv_code_M->solverInfo,((tv_code_M->Timing.clockTick0+
@@ -464,497 +378,514 @@ void tv_code_step(void)
   }
 
   if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Gain: '<S16>/Gain1' incorporates:
-     *  Constant: '<S2>/whl_speed_fl'
-     *  Constant: '<S2>/whl_speed_fr'
-     *  Constant: '<S2>/whl_speed_rl'
-     *  Constant: '<S2>/whl_speed_rr'
-     */
-    tv_code_B.Gain1_b[0] = tv_code_P.Gain1_Gain_c * tv_code_P.whl_speed_fl_Value;
-    tv_code_B.Gain1_b[1] = tv_code_P.Gain1_Gain_c * tv_code_P.whl_speed_fr_Value;
-    tv_code_B.Gain1_b[2] = tv_code_P.Gain1_Gain_c * tv_code_P.whl_speed_rl_Value;
-    tv_code_B.Gain1_b[3] = tv_code_P.Gain1_Gain_c * tv_code_P.whl_speed_rr_Value;
+    real_T Gain1_tmp;
+    real_T Sum_tmp_0;
 
-    /* Sum: '<S15>/Sum' incorporates:
-     *  Constant: '<S14>/Constant'
-     *  Constant: '<S2>/acc_pedal'
-     *  Sum: '<S14>/Sum1'
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Constant: '<S18>/Constant'
+     *  Constant: '<S3>/acc_pedal'
+     *  Sum: '<S18>/Sum1'
      */
-    tv_code_B.Sum_d = tv_code_P.acc_pedal_Value - tv_code_P.Constant_Value_g;
+    tv_code_B.Sum = tv_code_P.acc_pedal_Value - tv_code_P.Constant_Value_c;
 
-    /* Product: '<S14>/Product1' incorporates:
-     *  Constant: '<S14>/Constant1'
+    /* Product: '<S18>/Product1' incorporates:
+     *  Constant: '<S18>/Constant1'
      */
     tv_code_B.Product1 = 4.0 * tv_code_P.max_moment * tv_code_P.drive_ratio *
-      tv_code_B.Sum_d;
+      tv_code_B.Sum;
 
-    /* Sum: '<S15>/Sum' incorporates:
-     *  Gain: '<S12>/Gain'
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Gain: '<S16>/Gain'
      */
-    tv_code_B.Sum_d = tv_code_P.Gain_Gain_l * tv_code_B.Product1;
+    tv_code_B.Sum = tv_code_P.Gain_Gain_po * tv_code_B.Product1;
 
-    /* Saturate: '<S12>/Saturation' */
-    if (tv_code_B.Sum_d > tv_code_P.Saturation_UpperSat) {
-      /* Saturate: '<S12>/Saturation' */
+    /* Saturate: '<S16>/Saturation' */
+    if (tv_code_B.Sum > tv_code_P.Saturation_UpperSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[0] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Sum_d < tv_code_P.Saturation_LowerSat) {
-      /* Saturate: '<S12>/Saturation' */
+    } else if (tv_code_B.Sum < tv_code_P.Saturation_LowerSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[0] = tv_code_P.Saturation_LowerSat;
     } else {
-      /* Saturate: '<S12>/Saturation' */
-      tv_code_B.Saturation[0] = tv_code_B.Sum_d;
+      /* Saturate: '<S16>/Saturation' */
+      tv_code_B.Saturation[0] = tv_code_B.Sum;
     }
 
-    if (tv_code_B.Sum_d > tv_code_P.Saturation_UpperSat) {
-      /* Saturate: '<S12>/Saturation' */
+    if (tv_code_B.Sum > tv_code_P.Saturation_UpperSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[1] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Sum_d < tv_code_P.Saturation_LowerSat) {
-      /* Saturate: '<S12>/Saturation' */
+    } else if (tv_code_B.Sum < tv_code_P.Saturation_LowerSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[1] = tv_code_P.Saturation_LowerSat;
     } else {
-      /* Saturate: '<S12>/Saturation' */
-      tv_code_B.Saturation[1] = tv_code_B.Sum_d;
+      /* Saturate: '<S16>/Saturation' */
+      tv_code_B.Saturation[1] = tv_code_B.Sum;
     }
 
-    if (tv_code_B.Sum_d > tv_code_P.Saturation_UpperSat) {
-      /* Saturate: '<S12>/Saturation' */
+    if (tv_code_B.Sum > tv_code_P.Saturation_UpperSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[2] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Sum_d < tv_code_P.Saturation_LowerSat) {
-      /* Saturate: '<S12>/Saturation' */
+    } else if (tv_code_B.Sum < tv_code_P.Saturation_LowerSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[2] = tv_code_P.Saturation_LowerSat;
     } else {
-      /* Saturate: '<S12>/Saturation' */
-      tv_code_B.Saturation[2] = tv_code_B.Sum_d;
+      /* Saturate: '<S16>/Saturation' */
+      tv_code_B.Saturation[2] = tv_code_B.Sum;
     }
 
-    if (tv_code_B.Sum_d > tv_code_P.Saturation_UpperSat) {
-      /* Saturate: '<S12>/Saturation' */
+    if (tv_code_B.Sum > tv_code_P.Saturation_UpperSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[3] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Sum_d < tv_code_P.Saturation_LowerSat) {
-      /* Saturate: '<S12>/Saturation' */
+    } else if (tv_code_B.Sum < tv_code_P.Saturation_LowerSat) {
+      /* Saturate: '<S16>/Saturation' */
       tv_code_B.Saturation[3] = tv_code_P.Saturation_LowerSat;
     } else {
-      /* Saturate: '<S12>/Saturation' */
-      tv_code_B.Saturation[3] = tv_code_B.Sum_d;
+      /* Saturate: '<S16>/Saturation' */
+      tv_code_B.Saturation[3] = tv_code_B.Sum;
     }
 
-    /* End of Saturate: '<S12>/Saturation' */
+    /* End of Saturate: '<S16>/Saturation' */
 
-    /* Sum: '<S11>/Plus' incorporates:
-     *  Constant: '<S2>/whl_speed_fl'
-     *  Constant: '<S2>/whl_speed_fr'
-     *  Constant: '<S2>/whl_speed_rl'
-     *  Constant: '<S2>/whl_speed_rr'
-     *  ManualSwitch: '<S10>/regen_switch'
-     *  Sum: '<S22>/Add'
-     *  Switch: '<S10>/Switch'
+    /* Constant: '<S3>/whl_speed_fl' */
+    tv_code_LowpassFilter(tv_code_P.whl_speed_fl_Value, &tv_code_B.LowpassFilter,
+                          &tv_code_DW.LowpassFilter);
+
+    /* Constant: '<S3>/whl_speed_fr' */
+    tv_code_LowpassFilter(tv_code_P.whl_speed_fr_Value,
+                          &tv_code_B.LowpassFilter1, &tv_code_DW.LowpassFilter1);
+
+    /* Constant: '<S3>/whl_speed_rl' */
+    tv_code_LowpassFilter(tv_code_P.whl_speed_rl_Value,
+                          &tv_code_B.LowpassFilter2, &tv_code_DW.LowpassFilter2);
+
+    /* Constant: '<S3>/whl_speed_rr' */
+    tv_code_LowpassFilter(tv_code_P.whl_speed_rr_Value,
+                          &tv_code_B.LowpassFilter3, &tv_code_DW.LowpassFilter3);
+
+    /* Sum: '<S15>/Plus' incorporates:
+     *  ManualSwitch: '<S14>/regen_switch'
+     *  Sum: '<S21>/Add'
+     *  Switch: '<S14>/Switch'
      */
-    Sum_d_tmp = ((tv_code_P.whl_speed_fl_Value + tv_code_P.whl_speed_fr_Value) +
-                 tv_code_P.whl_speed_rl_Value) + tv_code_P.whl_speed_rr_Value;
+    Sum_tmp = ((tv_code_B.LowpassFilter.LowpassFilter +
+                tv_code_B.LowpassFilter1.LowpassFilter) +
+               tv_code_B.LowpassFilter2.LowpassFilter) +
+      tv_code_B.LowpassFilter3.LowpassFilter;
 
-    /* Sum: '<S15>/Sum' incorporates:
-     *  Gain: '<S11>/Gain'
-     *  Sum: '<S11>/Plus'
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Gain: '<S15>/Gain'
+     *  Sum: '<S15>/Plus'
      */
-    tv_code_B.Sum_d = Sum_d_tmp;
-    tv_code_B.Sum_d *= tv_code_P.Gain_Gain_a;
+    tv_code_B.Sum = Sum_tmp;
+    tv_code_B.Sum *= tv_code_P.Gain_Gain_f;
 
-    /* Gain: '<S11>/Gain1' */
-    tv_code_B.Gain1 = tv_code_P.rw * tv_code_B.Sum_d;
+    /* Gain: '<S15>/car_vx' */
+    tv_code_B.car_vx = tv_code_P.rw * tv_code_B.Sum;
 
-    /* Switch: '<S10>/Switch' incorporates:
-     *  ManualSwitch: '<S10>/regen_switch'
+    /* Switch: '<S14>/Switch' incorporates:
+     *  ManualSwitch: '<S14>/regen_switch'
      */
-    if (tv_code_B.Product1 > tv_code_P.Switch_Threshold_p) {
-      /* Switch: '<S10>/Switch' */
+    if (tv_code_B.Product1 > tv_code_P.Switch_Threshold) {
+      /* Switch: '<S14>/Switch' */
       tv_code_B.Switch = tv_code_B.Product1;
     } else {
       if (tv_code_P.regen_switch_CurrentSetting == 1) {
-        /* ManualSwitch: '<S10>/regen_switch' incorporates:
-         *  Constant: '<S10>/Constant'
+        /* ManualSwitch: '<S14>/regen_switch' incorporates:
+         *  Constant: '<S14>/Constant'
          */
         tv_code_B.regen_switch = tv_code_P.Constant_Value;
       } else {
-        /* Gain: '<S21>/Gain1' incorporates:
-         *  ManualSwitch: '<S10>/regen_switch'
-         *  Sum: '<S22>/Add'
+        /* Gain: '<S20>/Gain1' incorporates:
+         *  ManualSwitch: '<S14>/regen_switch'
+         *  Sum: '<S21>/Add'
          */
-        tv_code_B.Gain1_jz = Sum_d_tmp;
+        tv_code_B.Gain1_a = Sum_tmp;
 
-        /* DotProduct: '<S22>/Dot Product' incorporates:
-         *  Constant: '<S22>/I_max'
-         *  Constant: '<S22>/Vdc'
-         *  ManualSwitch: '<S10>/regen_switch'
+        /* DotProduct: '<S21>/Dot Product' incorporates:
+         *  Constant: '<S21>/I_max'
+         *  Constant: '<S21>/Vdc'
+         *  ManualSwitch: '<S14>/regen_switch'
          */
-        tv_code_B.DotProduct_l = tv_code_P.I_max_Value * tv_code_P.Vdc_Value;
+        tv_code_B.DotProduct_h = tv_code_P.I_max_Value * tv_code_P.Vdc_Value;
 
-        /* Product: '<S22>/div2' incorporates:
-         *  Gain: '<S22>/Gain'
-         *  ManualSwitch: '<S10>/regen_switch'
-         */
-        tv_code_B.div2 = tv_code_P.Gain_Gain_m * tv_code_B.DotProduct_l;
-        tv_code_B.div2 /= tv_code_B.Gain1_jz;
-
-        /* Gain: '<S21>/X2' incorporates:
-         *  Constant: '<S21>/Z1'
-         *  Constant: '<S21>/Z2'
-         *  Gain: '<S21>/X1'
-         *  ManualSwitch: '<S10>/regen_switch'
-         */
-        Sum_d_tmp = tv_code_P.m * tv_code_P.g;
-
-        /* Gain: '<S21>/Gain1' incorporates:
-         *  Constant: '<S21>/Z2'
-         *  Gain: '<S21>/Tr'
-         *  Gain: '<S21>/X2'
-         *  ManualSwitch: '<S10>/regen_switch'
-         */
-        tv_code_B.Gain1_jz = Sum_d_tmp * tv_code_P.lr / tv_code_P.L *
-          tv_code_P.mu;
-        tv_code_B.Gain1_jz *= tv_code_P.rw;
-        tv_code_B.Gain1_jz *= 1.0 / tv_code_P.drive_ratio;
-
-        /* MinMax: '<S10>/Max' incorporates:
-         *  Constant: '<S10>/TT_max'
-         *  Constant: '<S21>/Z1'
+        /* Product: '<S21>/div2' incorporates:
          *  Gain: '<S21>/Gain'
-         *  Gain: '<S21>/Ta'
-         *  Gain: '<S21>/X1'
-         *  ManualSwitch: '<S10>/regen_switch'
-         *  MinMax: '<S10>/Max of Elements'
-         *  Sum: '<S10>/Sum'
+         *  ManualSwitch: '<S14>/regen_switch'
          */
-        tv_code_B.Max_a = Sum_d_tmp * tv_code_P.lf / tv_code_P.L * tv_code_P.mu;
-        tv_code_B.Max_a *= tv_code_P.rw;
-        tv_code_B.Max_a *= 1.0 / tv_code_P.drive_ratio;
-        tv_code_B.Max_a += tv_code_B.Gain1_jz;
-        tv_code_B.Max_a = fmin(tv_code_B.Max_a, tv_code_B.div2);
-        tv_code_B.Max_a = fmax(tv_code_B.Max_a, tv_code_P.TT_max_Value);
+        tv_code_B.div2 = tv_code_P.Gain_Gain * tv_code_B.DotProduct_h;
+        tv_code_B.div2 /= tv_code_B.Gain1_a;
 
-        /* Gain: '<S10>/Gain1' incorporates:
-         *  ManualSwitch: '<S10>/regen_switch'
+        /* Gain: '<S20>/X2' incorporates:
+         *  Constant: '<S20>/Z1'
+         *  Constant: '<S20>/Z2'
+         *  Gain: '<S20>/X1'
+         *  ManualSwitch: '<S14>/regen_switch'
          */
-        tv_code_B.Gain1_m3 = tv_code_P.Gain1_Gain * tv_code_B.Max_a;
+        Sum_tmp = tv_code_P.m * tv_code_P.g;
 
-        /* ManualSwitch: '<S10>/regen_switch' */
-        tv_code_B.regen_switch = tv_code_B.Gain1_m3;
+        /* Gain: '<S20>/Gain1' incorporates:
+         *  Constant: '<S20>/Z2'
+         *  Gain: '<S20>/Tr'
+         *  Gain: '<S20>/X2'
+         *  ManualSwitch: '<S14>/regen_switch'
+         */
+        tv_code_B.Gain1_a = Sum_tmp * tv_code_P.lr / tv_code_P.L * tv_code_P.mu;
+        tv_code_B.Gain1_a *= tv_code_P.rw;
+        tv_code_B.Gain1_a *= 1.0 / tv_code_P.drive_ratio;
+
+        /* MinMax: '<S14>/Max' incorporates:
+         *  Constant: '<S14>/TT_max'
+         *  Constant: '<S20>/Z1'
+         *  Gain: '<S20>/Gain'
+         *  Gain: '<S20>/Ta'
+         *  Gain: '<S20>/X1'
+         *  ManualSwitch: '<S14>/regen_switch'
+         *  MinMax: '<S14>/Max of Elements'
+         *  Sum: '<S14>/Sum'
+         */
+        tv_code_B.Max = Sum_tmp * tv_code_P.lf / tv_code_P.L * tv_code_P.mu;
+        tv_code_B.Max *= tv_code_P.rw;
+        tv_code_B.Max *= 1.0 / tv_code_P.drive_ratio;
+        tv_code_B.Max += tv_code_B.Gain1_a;
+        tv_code_B.Max = fmin(tv_code_B.Max, tv_code_B.div2);
+        tv_code_B.Max = fmax(tv_code_B.Max, tv_code_P.TT_max_Value);
+
+        /* Gain: '<S14>/Gain1' incorporates:
+         *  ManualSwitch: '<S14>/regen_switch'
+         */
+        tv_code_B.Gain1_d = tv_code_P.Gain1_Gain * tv_code_B.Max;
+
+        /* ManualSwitch: '<S14>/regen_switch' */
+        tv_code_B.regen_switch = tv_code_B.Gain1_d;
       }
 
-      /* Switch: '<S10>/Switch' */
+      /* Switch: '<S14>/Switch' */
       tv_code_B.Switch = tv_code_B.regen_switch;
     }
 
-    /* Switch: '<S13>/Switch' */
+    /* Switch: '<S17>/Switch' */
     if (tv_code_B.Switch != 0.0) {
-      /* Switch: '<S13>/Switch' incorporates:
-       *  Constant: '<S13>/Constant'
+      /* Switch: '<S17>/Switch' incorporates:
+       *  Constant: '<S17>/Constant'
        */
-      tv_code_B.Switch_b = tv_code_P.Constant_Value_l;
+      tv_code_B.Switch_k = tv_code_P.Constant_Value_n;
     } else {
-      /* Switch: '<S13>/Switch' incorporates:
-       *  Constant: '<S13>/Constant1'
+      /* Switch: '<S17>/Switch' incorporates:
+       *  Constant: '<S17>/Constant1'
        */
-      tv_code_B.Switch_b = tv_code_P.Constant1_Value;
+      tv_code_B.Switch_k = tv_code_P.Constant1_Value;
     }
 
-    /* End of Switch: '<S13>/Switch' */
+    /* End of Switch: '<S17>/Switch' */
 
-    /* Constant: '<S2>/ax' */
+    /* Constant: '<S3>/ax' */
     tv_code_ax_filter(tv_code_P.ax_Value, &tv_code_B.ax_filter,
                       &tv_code_DW.ax_filter);
 
-    /* Sum: '<S15>/Sum' incorporates:
+    /* Gain: '<S22>/Gain1' incorporates:
      *  Gain: '<S23>/Gain1'
      */
-    tv_code_B.Sum_d = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
+    Sum_tmp = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
 
-    /* Constant: '<S2>/ay' */
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Gain: '<S22>/Gain1'
+     */
+    tv_code_B.Sum = Sum_tmp;
+
+    /* Constant: '<S3>/ay' */
     tv_code_ax_filter(tv_code_P.ay_Value, &tv_code_B.ay_filter,
                       &tv_code_DW.ay_filter);
 
-    /* Saturate: '<S9>/Saturation' incorporates:
+    /* Gain: '<S22>/Gain2' incorporates:
      *  Gain: '<S23>/Gain2'
      */
-    tv_code_B.Saturation_j = tv_code_P.h * tv_code_P.lr / tv_code_P.ls *
+    tv_code_B.e_slip = tv_code_P.h * tv_code_P.lr / tv_code_P.ls *
       tv_code_B.ay_filter.ax_filter;
 
-    /* Sum: '<S15>/Sum' incorporates:
+    /* Saturate: '<S13>/Saturation' incorporates:
+     *  Gain: '<S22>/Gain2'
+     */
+    tv_code_B.Saturation_j = tv_code_B.e_slip;
+
+    /* Sum: '<S22>/Sum' incorporates:
+     *  Constant: '<S22>/Constant'
      *  Constant: '<S23>/Constant'
-     *  Gain: '<S23>/Gain'
      *  Sum: '<S23>/Sum'
      */
-    tv_code_B.Sum_d = (tv_code_P.g * tv_code_P.lr - tv_code_B.Sum_d) -
-      tv_code_B.Saturation_j;
-    tv_code_B.Sum_d *= tv_code_P.m / (2.0 * tv_code_P.L);
+    Sum_tmp_0 = tv_code_P.g * tv_code_P.lr;
 
-    /* Gain: '<S27>/Gain1' */
-    tv_code_B.Gain1_k = 1.0 / (tv_code_P.m * tv_code_P.g) * tv_code_B.Sum_d;
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Constant: '<S22>/Constant'
+     *  Sum: '<S22>/Sum'
+     */
+    tv_code_B.Sum = (Sum_tmp_0 - tv_code_B.Sum) - tv_code_B.Saturation_j;
 
-    /* Constant: '<S2>/yaw_rate' */
+    /* Gain: '<S22>/Gain' incorporates:
+     *  Gain: '<S23>/Gain'
+     */
+    Sum_tmp_1 = tv_code_P.m / (2.0 * tv_code_P.L);
+
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Gain: '<S22>/Gain'
+     */
+    tv_code_B.Sum *= Sum_tmp_1;
+
+    /* Gain: '<S26>/Gain1' incorporates:
+     *  Gain: '<S27>/Gain1'
+     */
+    Gain1_tmp = 1.0 / (tv_code_P.m * tv_code_P.g);
+
+    /* Gain: '<S26>/Gain1' */
+    tv_code_B.Gain1 = Gain1_tmp * tv_code_B.Sum;
+
+    /* Constant: '<S3>/yaw_rate' */
     tv_code_ax_filter(tv_code_P.yaw_rate_Value, &tv_code_B.yaw_rate_filter,
                       &tv_code_DW.yaw_rate_filter);
 
-    /* Saturate: '<S9>/Saturation' incorporates:
-     *  Constant: '<S2>/delta'
-     *  Product: '<S9>/Product'
+    /* Saturate: '<S13>/Saturation' incorporates:
+     *  Constant: '<S3>/delta'
+     *  Product: '<S13>/Product'
      */
-    tv_code_B.Saturation_j = tv_code_P.delta_Value * tv_code_B.Gain1;
+    tv_code_B.Saturation_j = tv_code_P.delta_Value * tv_code_B.car_vx;
 
-    /* Sum: '<S15>/Sum' incorporates:
-     *  Constant: '<S9>/Constant'
-     *  Gain: '<S9>/Desired Understeer Gradient'
-     *  Gain: '<S9>/axlebase'
-     *  Math: '<S9>/Square'
-     *  Sum: '<S9>/Sum'
+    /* Sum: '<S19>/Sum' incorporates:
+     *  Constant: '<S13>/Constant'
+     *  Gain: '<S13>/Desired Understeer Gradient'
+     *  Gain: '<S13>/axlebase'
+     *  Math: '<S13>/Square'
+     *  Sum: '<S13>/Sum'
      */
-    tv_code_B.Sum_d = tv_code_B.Gain1 * tv_code_B.Gain1;
-    tv_code_B.Sum_d *= tv_code_P.Ku;
-    tv_code_B.Sum_d += tv_code_P.Constant_Value_b;
-    tv_code_B.Sum_d *= tv_code_P.L;
+    tv_code_B.Sum = tv_code_B.car_vx * tv_code_B.car_vx;
+    tv_code_B.Sum *= tv_code_P.Ku;
+    tv_code_B.Sum += tv_code_P.Constant_Value_m;
+    tv_code_B.Sum *= tv_code_P.L;
 
-    /* Saturate: '<S9>/Saturation1' */
-    if (tv_code_B.Sum_d > tv_code_P.Saturation1_UpperSat) {
-      /* Sum: '<S15>/Sum' */
-      tv_code_B.Sum_d = tv_code_P.Saturation1_UpperSat;
-    } else if (tv_code_B.Sum_d < tv_code_P.Saturation1_LowerSat) {
-      /* Sum: '<S15>/Sum' */
-      tv_code_B.Sum_d = tv_code_P.Saturation1_LowerSat;
+    /* Saturate: '<S13>/Saturation1' */
+    if (tv_code_B.Sum > tv_code_P.Saturation1_UpperSat) {
+      /* Sum: '<S19>/Sum' */
+      tv_code_B.Sum = tv_code_P.Saturation1_UpperSat;
+    } else if (tv_code_B.Sum < tv_code_P.Saturation1_LowerSat) {
+      /* Sum: '<S19>/Sum' */
+      tv_code_B.Sum = tv_code_P.Saturation1_LowerSat;
     }
 
-    /* End of Saturate: '<S9>/Saturation1' */
+    /* End of Saturate: '<S13>/Saturation1' */
 
-    /* Saturate: '<S9>/Saturation' incorporates:
-     *  Product: '<S9>/div3'
+    /* Saturate: '<S13>/Saturation' incorporates:
+     *  Product: '<S13>/div3'
      */
-    tv_code_B.Saturation_j /= tv_code_B.Sum_d;
+    tv_code_B.Saturation_j /= tv_code_B.Sum;
 
-    /* Saturate: '<S9>/Saturation' */
-    if (tv_code_B.Saturation_j > tv_code_P.Saturation_UpperSat_o) {
-      /* Saturate: '<S9>/Saturation' */
-      tv_code_B.Saturation_j = tv_code_P.Saturation_UpperSat_o;
-    } else if (tv_code_B.Saturation_j < tv_code_P.Saturation_LowerSat_k) {
-      /* Saturate: '<S9>/Saturation' */
-      tv_code_B.Saturation_j = tv_code_P.Saturation_LowerSat_k;
+    /* Saturate: '<S13>/Saturation' */
+    if (tv_code_B.Saturation_j > tv_code_P.Saturation_UpperSat_b) {
+      /* Saturate: '<S13>/Saturation' */
+      tv_code_B.Saturation_j = tv_code_P.Saturation_UpperSat_b;
+    } else if (tv_code_B.Saturation_j < tv_code_P.Saturation_LowerSat_i) {
+      /* Saturate: '<S13>/Saturation' */
+      tv_code_B.Saturation_j = tv_code_P.Saturation_LowerSat_i;
     }
 
-    /* End of Saturate: '<S9>/Saturation' */
+    /* End of Saturate: '<S13>/Saturation' */
 
-    /* Sum: '<S15>/Sum' */
-    tv_code_B.Sum_d = tv_code_B.Saturation_j -
-      tv_code_B.yaw_rate_filter.ax_filter;
+    /* Sum: '<S19>/Sum' */
+    tv_code_B.Sum = tv_code_B.Saturation_j - tv_code_B.yaw_rate_filter.ax_filter;
 
-    /* DotProduct: '<S15>/Dot Product' incorporates:
-     *  Constant: '<S2>/Mz Proportional Gain'
+    /* DotProduct: '<S19>/Dot Product' incorporates:
+     *  Constant: '<S3>/Mz Proportional Gain'
      */
-    tv_code_B.DotProduct = tv_code_P.Mz_p * tv_code_B.Sum_d;
-  }
+    tv_code_B.DotProduct = tv_code_P.Mz_p * tv_code_B.Sum;
 
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Integrator: '<S15>/Integrator'
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.P_est = tv_code_X.Integrator_CSTATE;
-
-  /* Sum: '<S15>/Sum1' */
-  tv_code_B.Sum1 = tv_code_B.DotProduct + tv_code_B.P_est;
-
-  /* Switch: '<S10>/Switch1' */
-  if (tv_code_B.Product1 > tv_code_P.Switch1_Threshold) {
-    /* Gain: '<S27>/Gain' incorporates:
-     *  Sum: '<S16>/Sum'
+    /* Gain: '<S24>/Gain2' incorporates:
+     *  Gain: '<S23>/Gain'
+     *  Gain: '<S23>/Gain1'
+     *  Gain: '<S25>/Gain2'
+     *  Sum: '<S23>/Sum'
      */
-    tv_code_B.P_est = tv_code_B.Sum1;
-  } else {
-    /* Gain: '<S10>/Gain' */
-    tv_code_B.Gain = tv_code_P.Gain_Gain * tv_code_B.Sum1;
+    tv_code_B.Gain2 = Sum_tmp;
+    tv_code_B.Gain2 = (Sum_tmp_0 - tv_code_B.Gain2) + tv_code_B.e_slip;
+    tv_code_B.Gain2 *= Sum_tmp_1;
 
-    /* Gain: '<S27>/Gain' incorporates:
-     *  Sum: '<S16>/Sum'
-     */
-    tv_code_B.P_est = tv_code_B.Gain;
-  }
+    /* Gain: '<S27>/Gain1' */
+    tv_code_B.Gain1_b = Gain1_tmp * tv_code_B.Gain2;
 
-  /* End of Switch: '<S10>/Switch1' */
-
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Gain: '<S28>/Gain'
-   *  Gain: '<S29>/Gain'
-   *  Gain: '<S30>/Gain'
-   */
-  tv_code_B.P_est *= tv_code_P.rw / tv_code_P.ls;
-
-  /* Gain: '<S16>/Gain13' incorporates:
-   *  Gain: '<S27>/Gain'
-   *  Product: '<S27>/Product'
-   *  Sum: '<S27>/Sum'
-   */
-  tv_code_B.Gain13 = tv_code_B.P_est;
-  tv_code_B.Gain13 = tv_code_B.Switch - tv_code_B.Gain13;
-  tv_code_B.Gain13 *= tv_code_B.Gain1_k;
-
-  /* Saturate: '<S13>/Saturation' incorporates:
-   *  Saturate: '<S13>/Saturation1'
-   *  Saturate: '<S13>/Saturation2'
-   *  Saturate: '<S13>/Saturation3'
-   */
-  Sum_d_tmp = -tv_code_P.max_moment * tv_code_P.drive_ratio;
-  u2_tmp = tv_code_P.max_moment * tv_code_P.drive_ratio;
-  if (tv_code_B.Gain13 > u2_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = u2_tmp;
-  } else if (tv_code_B.Gain13 < Sum_d_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = Sum_d_tmp;
-  }
-
-  /* End of Saturate: '<S13>/Saturation' */
-
-  /* DotProduct: '<S13>/Dot Product' */
-  tv_code_B.DotProduct_n = tv_code_B.Switch_b * tv_code_B.Gain13;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Gain: '<S3>/P_el' incorporates:
+    /* Gain: '<S22>/Gain2' incorporates:
      *  Gain: '<S24>/Gain1'
+     *  MinMax: '<S8>/e_slip'
      */
-    tv_code_B.P_el = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
+    tv_code_B.e_slip = Sum_tmp;
 
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Gain: '<S24>/Gain2'
-     */
-    tv_code_B.Sum_f = tv_code_P.h * tv_code_P.lr / tv_code_P.ls *
-      tv_code_B.ay_filter.ax_filter;
-
-    /* Gain: '<S3>/P_el' incorporates:
-     *  Constant: '<S24>/Constant'
-     *  Gain: '<S24>/Gain'
-     *  Sum: '<S24>/Sum'
-     */
-    tv_code_B.P_el = (tv_code_P.g * tv_code_P.lr - tv_code_B.P_el) +
-      tv_code_B.Sum_f;
-    tv_code_B.P_el *= tv_code_P.m / (2.0 * tv_code_P.L);
-
-    /* Gain: '<S28>/Gain1' */
-    tv_code_B.Gain1_j = 1.0 / (tv_code_P.m * tv_code_P.g) * tv_code_B.P_el;
-  }
-
-  /* Gain: '<S16>/Gain13' incorporates:
-   *  Gain: '<S28>/Gain'
-   *  Product: '<S28>/Product'
-   *  Sum: '<S28>/Sum'
-   */
-  tv_code_B.Gain13 = tv_code_B.P_est;
-  tv_code_B.Gain13 += tv_code_B.Switch;
-  tv_code_B.Gain13 *= tv_code_B.Gain1_j;
-
-  /* Saturate: '<S13>/Saturation1' */
-  if (tv_code_B.Gain13 > u2_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = u2_tmp;
-  } else if (tv_code_B.Gain13 < Sum_d_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = Sum_d_tmp;
-  }
-
-  /* DotProduct: '<S13>/Dot Product1' */
-  tv_code_B.DotProduct1 = tv_code_B.Switch_b * tv_code_B.Gain13;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Gain: '<S25>/Gain1'
-     */
-    tv_code_B.Sum_f = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
-
-    /* Gain: '<S3>/P_el' incorporates:
+    /* Gain: '<S24>/Gain2' incorporates:
      *  Gain: '<S25>/Gain2'
      */
-    tv_code_B.P_el = tv_code_P.h * tv_code_P.lf / tv_code_P.ls *
+    tv_code_B.Gain2 = tv_code_P.h * tv_code_P.lf / tv_code_P.ls *
       tv_code_B.ay_filter.ax_filter;
 
-    /* Sum: '<S6>/Sum' incorporates:
+    /* Sum: '<S24>/Sum' incorporates:
+     *  Constant: '<S24>/Constant'
      *  Constant: '<S25>/Constant'
-     *  Gain: '<S25>/Gain'
      *  Sum: '<S25>/Sum'
      */
-    tv_code_B.Sum_f = (tv_code_P.g * tv_code_P.lf + tv_code_B.Sum_f) -
-      tv_code_B.P_el;
-    tv_code_B.Sum_f *= tv_code_P.m / (2.0 * tv_code_P.L);
+    Sum_tmp_0 = tv_code_P.g * tv_code_P.lf;
 
-    /* Gain: '<S30>/Gain1' */
-    tv_code_B.Gain1_d = 1.0 / (tv_code_P.m * tv_code_P.g) * tv_code_B.Sum_f;
-  }
-
-  /* Gain: '<S16>/Gain13' incorporates:
-   *  Gain: '<S30>/Gain'
-   *  Product: '<S30>/Product'
-   *  Sum: '<S30>/Sum'
-   */
-  tv_code_B.Gain13 = tv_code_B.P_est;
-  tv_code_B.Gain13 = tv_code_B.Switch - tv_code_B.Gain13;
-  tv_code_B.Gain13 *= tv_code_B.Gain1_d;
-
-  /* Saturate: '<S13>/Saturation2' */
-  if (tv_code_B.Gain13 > u2_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = u2_tmp;
-  } else if (tv_code_B.Gain13 < Sum_d_tmp) {
-    /* Gain: '<S16>/Gain13' */
-    tv_code_B.Gain13 = Sum_d_tmp;
-  }
-
-  /* DotProduct: '<S13>/Dot Product2' */
-  tv_code_B.DotProduct2 = tv_code_B.Switch_b * tv_code_B.Gain13;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Gain: '<S26>/Gain1'
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S24>/Constant'
+     *  Gain: '<S24>/Gain'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S24>/Sum'
      */
-    tv_code_B.Sum_f = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
-
-    /* Gain: '<S3>/P_el' incorporates:
-     *  Gain: '<S26>/Gain2'
-     */
-    tv_code_B.P_el = tv_code_P.h * tv_code_P.lf / tv_code_P.ls *
-      tv_code_B.ay_filter.ax_filter;
-
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Constant: '<S26>/Constant'
-     *  Gain: '<S26>/Gain'
-     *  Sum: '<S26>/Sum'
-     */
-    tv_code_B.Sum_f = (tv_code_P.g * tv_code_P.lf + tv_code_B.Sum_f) +
-      tv_code_B.P_el;
-    tv_code_B.Sum_f *= tv_code_P.m / (2.0 * tv_code_P.L);
+    tv_code_B.e_slip = (Sum_tmp_0 + tv_code_B.e_slip) - tv_code_B.Gain2;
+    tv_code_B.e_slip *= Sum_tmp_1;
 
     /* Gain: '<S29>/Gain1' */
-    tv_code_B.Gain1_m = 1.0 / (tv_code_P.m * tv_code_P.g) * tv_code_B.Sum_f;
+    tv_code_B.Gain1_bu = Gain1_tmp * tv_code_B.e_slip;
+
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Gain: '<S25>/Gain'
+     *  Gain: '<S25>/Gain1'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S25>/Sum'
+     */
+    tv_code_B.e_slip = Sum_tmp;
+    tv_code_B.e_slip = (Sum_tmp_0 + tv_code_B.e_slip) + tv_code_B.Gain2;
+    tv_code_B.e_slip *= Sum_tmp_1;
+
+    /* Gain: '<S28>/Gain1' */
+    tv_code_B.Gain1_e = Gain1_tmp * tv_code_B.e_slip;
   }
 
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Product: '<S29>/Product'
-   *  Sum: '<S16>/Sum'
-   *  Sum: '<S29>/Sum'
+  /* MinMax: '<S8>/Max' incorporates:
+   *  Integrator: '<S19>/Integrator'
    */
-  tv_code_B.P_est += tv_code_B.Switch;
-  tv_code_B.P_est *= tv_code_B.Gain1_m;
+  tv_code_B.Max_d = tv_code_X.Integrator_CSTATE;
 
-  /* Saturate: '<S13>/Saturation3' */
-  if (tv_code_B.P_est > u2_tmp) {
-    /* Gain: '<S27>/Gain' incorporates:
-     *  Sum: '<S16>/Sum'
-     */
-    tv_code_B.P_est = u2_tmp;
-  } else if (tv_code_B.P_est < Sum_d_tmp) {
-    /* Gain: '<S27>/Gain' incorporates:
-     *  Sum: '<S16>/Sum'
-     */
-    tv_code_B.P_est = Sum_d_tmp;
-  }
-
-  /* DotProduct: '<S13>/Dot Product3' */
-  tv_code_B.DotProduct3 = tv_code_B.Switch_b * tv_code_B.P_est;
+  /* Sum: '<S19>/Sum1' */
+  tv_code_B.Sum1 = tv_code_B.DotProduct + tv_code_B.Max_d;
 
   /* Switch: '<S4>/speed_switch' */
-  if (tv_code_B.Gain1 > tv_code_P.speed_switch_Threshold) {
+  if (tv_code_B.car_vx > tv_code_P.speed_switch_Threshold) {
+    /* Switch: '<S14>/Switch1' */
+    if (tv_code_B.Product1 > tv_code_P.Switch1_Threshold) {
+      /* Gain: '<S26>/Gain' incorporates:
+       *  Saturate: '<S17>/Saturation3'
+       */
+      tv_code_B.Saturation3 = tv_code_B.Sum1;
+    } else {
+      /* Gain: '<S14>/Gain' */
+      tv_code_B.Gain_m = tv_code_P.Gain_Gain_p * tv_code_B.Sum1;
+
+      /* Gain: '<S26>/Gain' incorporates:
+       *  Saturate: '<S17>/Saturation3'
+       */
+      tv_code_B.Saturation3 = tv_code_B.Gain_m;
+    }
+
+    /* End of Switch: '<S14>/Switch1' */
+
+    /* Gain: '<S26>/Gain' incorporates:
+     *  Gain: '<S27>/Gain'
+     *  Gain: '<S28>/Gain'
+     *  Gain: '<S29>/Gain'
+     */
+    tv_code_B.Saturation3 *= tv_code_P.rw / tv_code_P.ls;
+
+    /* Saturate: '<S17>/Saturation2' incorporates:
+     *  Gain: '<S26>/Gain'
+     *  Product: '<S26>/Product'
+     *  Sum: '<S26>/Sum'
+     */
+    tv_code_B.Saturation2 = tv_code_B.Saturation3;
+    tv_code_B.Saturation2 = tv_code_B.Switch - tv_code_B.Saturation2;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1;
+
+    /* Saturate: '<S17>/Saturation' incorporates:
+     *  Saturate: '<S17>/Saturation1'
+     *  Saturate: '<S17>/Saturation2'
+     *  Saturate: '<S17>/Saturation3'
+     */
+    Sum_tmp = -tv_code_P.max_moment * tv_code_P.drive_ratio;
+    Sum_tmp_1 = tv_code_P.max_moment * tv_code_P.drive_ratio;
+    if (tv_code_B.Saturation2 > Sum_tmp_1) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp_1;
+    } else if (tv_code_B.Saturation2 < Sum_tmp) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp;
+    }
+
+    /* End of Saturate: '<S17>/Saturation' */
+
+    /* DotProduct: '<S17>/Dot Product' */
+    tv_code_B.DotProduct_j = tv_code_B.Switch_k * tv_code_B.Saturation2;
+
+    /* Saturate: '<S17>/Saturation2' incorporates:
+     *  Gain: '<S27>/Gain'
+     *  Product: '<S27>/Product'
+     *  Sum: '<S27>/Sum'
+     */
+    tv_code_B.Saturation2 = tv_code_B.Saturation3;
+    tv_code_B.Saturation2 += tv_code_B.Switch;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1_b;
+
+    /* Saturate: '<S17>/Saturation1' */
+    if (tv_code_B.Saturation2 > Sum_tmp_1) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp_1;
+    } else if (tv_code_B.Saturation2 < Sum_tmp) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp;
+    }
+
+    /* DotProduct: '<S17>/Dot Product1' */
+    tv_code_B.DotProduct1_l = tv_code_B.Switch_k * tv_code_B.Saturation2;
+
+    /* Saturate: '<S17>/Saturation2' incorporates:
+     *  Gain: '<S29>/Gain'
+     *  Product: '<S29>/Product'
+     *  Sum: '<S29>/Sum'
+     */
+    tv_code_B.Saturation2 = tv_code_B.Saturation3;
+    tv_code_B.Saturation2 = tv_code_B.Switch - tv_code_B.Saturation2;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1_bu;
+
+    /* Saturate: '<S17>/Saturation2' */
+    if (tv_code_B.Saturation2 > Sum_tmp_1) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp_1;
+    } else if (tv_code_B.Saturation2 < Sum_tmp) {
+      /* Saturate: '<S17>/Saturation2' */
+      tv_code_B.Saturation2 = Sum_tmp;
+    }
+
+    /* DotProduct: '<S17>/Dot Product2' */
+    tv_code_B.DotProduct2 = tv_code_B.Switch_k * tv_code_B.Saturation2;
+
+    /* Gain: '<S26>/Gain' incorporates:
+     *  Product: '<S28>/Product'
+     *  Saturate: '<S17>/Saturation3'
+     *  Sum: '<S28>/Sum'
+     */
+    tv_code_B.Saturation3 += tv_code_B.Switch;
+    tv_code_B.Saturation3 *= tv_code_B.Gain1_e;
+
+    /* Saturate: '<S17>/Saturation3' */
+    if (tv_code_B.Saturation3 > Sum_tmp_1) {
+      /* Gain: '<S26>/Gain' incorporates:
+       *  Saturate: '<S17>/Saturation3'
+       */
+      tv_code_B.Saturation3 = Sum_tmp_1;
+    } else if (tv_code_B.Saturation3 < Sum_tmp) {
+      /* Gain: '<S26>/Gain' incorporates:
+       *  Saturate: '<S17>/Saturation3'
+       */
+      tv_code_B.Saturation3 = Sum_tmp;
+    }
+
+    /* DotProduct: '<S17>/Dot Product3' */
+    tv_code_B.DotProduct3 = tv_code_B.Switch_k * tv_code_B.Saturation3;
+
     /* Switch: '<S4>/speed_switch' */
-    tv_code_B.speed_switch[0] = tv_code_B.DotProduct_n;
-    tv_code_B.speed_switch[1] = tv_code_B.DotProduct1;
+    tv_code_B.speed_switch[0] = tv_code_B.DotProduct_j;
+    tv_code_B.speed_switch[1] = tv_code_B.DotProduct1_l;
     tv_code_B.speed_switch[2] = tv_code_B.DotProduct2;
     tv_code_B.speed_switch[3] = tv_code_B.DotProduct3;
   } else {
@@ -966,568 +897,160 @@ void tv_code_step(void)
   }
 
   /* End of Switch: '<S4>/speed_switch' */
-
-  /* TransferFcn: '<S3>/Transfer Fcn' */
-  tv_code_B.TransferFcn = tv_code_P.TransferFcn_C * tv_code_X.TransferFcn_CSTATE;
   if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Saturate: '<S7>/Saturation3' incorporates:
-     *  Constant: '<S2>/whl_speed_fl'
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S9>/Constant'
+     *  Constant: '<S9>/Constant1'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S9>/Sum'
      */
-    if (tv_code_P.whl_speed_fl_Value > tv_code_P.Saturation3_UpperSat) {
-      /* Saturate: '<S7>/Saturation3' */
-      tv_code_B.Saturation3 = tv_code_P.Saturation3_UpperSat;
-    } else if (tv_code_P.whl_speed_fl_Value < tv_code_P.Saturation3_LowerSat) {
-      /* Saturate: '<S7>/Saturation3' */
-      tv_code_B.Saturation3 = tv_code_P.Saturation3_LowerSat;
-    } else {
-      /* Saturate: '<S7>/Saturation3' */
-      tv_code_B.Saturation3 = tv_code_P.whl_speed_fl_Value;
-    }
+    tv_code_B.e_slip = tv_code_P.Constant1_Value_d + tv_code_P.s_max;
 
-    /* End of Saturate: '<S7>/Saturation3' */
+    /* DotProduct: '<S9>/Dot Product' */
+    tv_code_B.DotProduct_f = tv_code_B.e_slip * tv_code_B.car_vx;
 
-    /* Saturate: '<S7>/Saturation2' incorporates:
-     *  Constant: '<S2>/whl_speed_fr'
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S5>/Constant2'
+     *  Gain: '<S9>/Gain'
+     *  MinMax: '<S5>/e_slip'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S5>/Sum'
      */
-    if (tv_code_P.whl_speed_fr_Value > tv_code_P.Saturation2_UpperSat) {
-      /* Saturate: '<S7>/Saturation2' */
-      tv_code_B.Saturation2 = tv_code_P.Saturation2_UpperSat;
-    } else if (tv_code_P.whl_speed_fr_Value < tv_code_P.Saturation2_LowerSat) {
-      /* Saturate: '<S7>/Saturation2' */
-      tv_code_B.Saturation2 = tv_code_P.Saturation2_LowerSat;
-    } else {
-      /* Saturate: '<S7>/Saturation2' */
-      tv_code_B.Saturation2 = tv_code_P.whl_speed_fr_Value;
-    }
+    tv_code_B.e_slip = 1.0 / tv_code_P.rw * tv_code_B.DotProduct_f;
+    tv_code_B.e_slip = tv_code_B.LowpassFilter.LowpassFilter - tv_code_B.e_slip;
+    tv_code_B.e_slip = fmax(tv_code_B.e_slip, tv_code_P.Constant2_Value);
 
-    /* End of Saturate: '<S7>/Saturation2' */
+    /* Gain: '<S5>/Gain' */
+    tv_code_B.Gain = tv_code_P.K_slip * tv_code_B.e_slip;
 
-    /* Saturate: '<S7>/Saturation1' incorporates:
-     *  Constant: '<S2>/whl_speed_rl'
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S10>/Constant'
+     *  Constant: '<S10>/Constant1'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S10>/Sum'
      */
-    if (tv_code_P.whl_speed_rl_Value > tv_code_P.Saturation1_UpperSat_p) {
-      /* Saturate: '<S7>/Saturation1' */
-      tv_code_B.Saturation1 = tv_code_P.Saturation1_UpperSat_p;
-    } else if (tv_code_P.whl_speed_rl_Value < tv_code_P.Saturation1_LowerSat_e)
-    {
-      /* Saturate: '<S7>/Saturation1' */
-      tv_code_B.Saturation1 = tv_code_P.Saturation1_LowerSat_e;
-    } else {
-      /* Saturate: '<S7>/Saturation1' */
-      tv_code_B.Saturation1 = tv_code_P.whl_speed_rl_Value;
-    }
+    tv_code_B.e_slip = tv_code_P.Constant1_Value_p + tv_code_P.s_max;
 
-    /* End of Saturate: '<S7>/Saturation1' */
+    /* DotProduct: '<S10>/Dot Product' */
+    tv_code_B.DotProduct_fj = tv_code_B.e_slip * tv_code_B.car_vx;
 
-    /* Saturate: '<S7>/Saturation' incorporates:
-     *  Constant: '<S2>/whl_speed_rr'
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S6>/Constant2'
+     *  Gain: '<S10>/Gain'
+     *  MinMax: '<S6>/e_slip'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S6>/Sum'
      */
-    if (tv_code_P.whl_speed_rr_Value > tv_code_P.Saturation_UpperSat_f) {
-      /* Saturate: '<S7>/Saturation' */
-      tv_code_B.Saturation_c = tv_code_P.Saturation_UpperSat_f;
-    } else if (tv_code_P.whl_speed_rr_Value < tv_code_P.Saturation_LowerSat_g) {
-      /* Saturate: '<S7>/Saturation' */
-      tv_code_B.Saturation_c = tv_code_P.Saturation_LowerSat_g;
-    } else {
-      /* Saturate: '<S7>/Saturation' */
-      tv_code_B.Saturation_c = tv_code_P.whl_speed_rr_Value;
-    }
+    tv_code_B.e_slip = 1.0 / tv_code_P.rw * tv_code_B.DotProduct_fj;
+    tv_code_B.e_slip = tv_code_B.LowpassFilter1.LowpassFilter - tv_code_B.e_slip;
+    tv_code_B.e_slip = fmax(tv_code_B.e_slip, tv_code_P.Constant2_Value_j);
 
-    /* End of Saturate: '<S7>/Saturation' */
-
-    /* Sum: '<S7>/Sum' */
-    tv_code_B.Sum = ((tv_code_B.Saturation3 + tv_code_B.Saturation2) +
-                     tv_code_B.Saturation1) + tv_code_B.Saturation_c;
+    /* Gain: '<S6>/ek_slip' */
+    tv_code_B.ek_slip = tv_code_P.K_slip * tv_code_B.e_slip;
   }
 
-  /* ManualSwitch: '<S1>/Manual Switch' incorporates:
-   *  Switch: '<S7>/Switch'
+  /* MinMax: '<S8>/Max' incorporates:
+   *  Constant: '<S5>/Constant2'
+   *  MinMax: '<S5>/Max'
+   *  Sum: '<S5>/Sum1'
    */
-  if (tv_code_P.ManualSwitch_CurrentSetting == 1) {
-    /* ManualSwitch: '<S1>/Manual Switch' */
-    tv_code_B.ManualSwitch[0] = tv_code_B.speed_switch[0];
-    tv_code_B.ManualSwitch[1] = tv_code_B.speed_switch[1];
-    tv_code_B.ManualSwitch[2] = tv_code_B.speed_switch[2];
-    tv_code_B.ManualSwitch[3] = tv_code_B.speed_switch[3];
-  } else {
-    if (tv_code_B.Sum > tv_code_P.Switch_Threshold) {
-      /* Product: '<S7>/Divide3' incorporates:
-       *  Gain: '<S3>/ref_p_max'
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.T_max = tv_code_P.P_max * tv_code_B.TransferFcn;
-
-      /* Product: '<S7>/Divide2' incorporates:
-       *  Product: '<S7>/Divide'
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.T_max_b = tv_code_B.T_max / tv_code_B.Saturation3;
-
-      /* MinMax: '<S7>/Min' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.Min = fmin(tv_code_B.speed_switch[0], tv_code_B.T_max_b);
-
-      /* Product: '<S7>/Divide2' incorporates:
-       *  Product: '<S7>/Divide1'
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.T_max_b = tv_code_B.T_max / tv_code_B.Saturation2;
-
-      /* MinMax: '<S7>/Min1' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.Min1 = fmin(tv_code_B.speed_switch[1], tv_code_B.T_max_b);
-
-      /* Product: '<S7>/Divide2' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.T_max_b = tv_code_B.T_max / tv_code_B.Saturation1;
-
-      /* MinMax: '<S7>/Min2' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.Min2 = fmin(tv_code_B.speed_switch[2], tv_code_B.T_max_b);
-
-      /* Product: '<S7>/Divide3' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.T_max /= tv_code_B.Saturation_c;
-
-      /* MinMax: '<S7>/Min3' incorporates:
-       *  Switch: '<S7>/Switch'
-       */
-      tv_code_B.Min3 = fmin(tv_code_B.speed_switch[3], tv_code_B.T_max);
-
-      /* Switch: '<S7>/Switch' */
-      tv_code_B.Switch_i[0] = tv_code_B.Min;
-      tv_code_B.Switch_i[1] = tv_code_B.Min1;
-      tv_code_B.Switch_i[2] = tv_code_B.Min2;
-      tv_code_B.Switch_i[3] = tv_code_B.Min3;
-    } else {
-      /* Switch: '<S7>/Switch' */
-      tv_code_B.Switch_i[0] = tv_code_B.speed_switch[0];
-      tv_code_B.Switch_i[1] = tv_code_B.speed_switch[1];
-      tv_code_B.Switch_i[2] = tv_code_B.speed_switch[2];
-      tv_code_B.Switch_i[3] = tv_code_B.speed_switch[3];
-    }
-
-    /* ManualSwitch: '<S1>/Manual Switch' */
-    tv_code_B.ManualSwitch[0] = tv_code_B.Switch_i[0];
-    tv_code_B.ManualSwitch[1] = tv_code_B.Switch_i[1];
-    tv_code_B.ManualSwitch[2] = tv_code_B.Switch_i[2];
-    tv_code_B.ManualSwitch[3] = tv_code_B.Switch_i[3];
-  }
-
-  /* End of ManualSwitch: '<S1>/Manual Switch' */
+  tv_code_B.Max_d = tv_code_B.speed_switch[0] - tv_code_B.Gain;
+  tv_code_B.Max_d = fmax(tv_code_B.Max_d, tv_code_P.Constant2_Value);
 
   /* Gain: '<Root>/trq_fl' */
-  tv_code_B.trq_fl = tv_code_P.trq_fl_Gain * tv_code_B.ManualSwitch[0];
+  tv_code_B.trq_fl = tv_code_P.trq_fl_Gain * tv_code_B.Max_d;
+
+  /* MinMax: '<S8>/Max' incorporates:
+   *  Constant: '<S6>/Constant2'
+   *  MinMax: '<S6>/Max'
+   *  Sum: '<S6>/Sum1'
+   */
+  tv_code_B.Max_d = tv_code_B.speed_switch[1] - tv_code_B.ek_slip;
+  tv_code_B.Max_d = fmax(tv_code_B.Max_d, tv_code_P.Constant2_Value_j);
 
   /* Gain: '<Root>/trq_fr' */
-  tv_code_B.trq_fr = tv_code_P.trq_fr_Gain * tv_code_B.ManualSwitch[1];
+  tv_code_B.trq_fr = tv_code_P.trq_fr_Gain * tv_code_B.Max_d;
+  if (rtmIsMajorTimeStep(tv_code_M)) {
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S11>/Constant'
+     *  Constant: '<S11>/Constant1'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S11>/Sum'
+     */
+    tv_code_B.e_slip = tv_code_P.Constant1_Value_i + tv_code_P.s_max;
+
+    /* DotProduct: '<S11>/Dot Product' */
+    tv_code_B.DotProduct_p = tv_code_B.e_slip * tv_code_B.car_vx;
+
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S7>/Constant2'
+     *  Gain: '<S11>/Gain'
+     *  MinMax: '<S7>/e_slip'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S7>/Sum'
+     */
+    tv_code_B.e_slip = 1.0 / tv_code_P.rw * tv_code_B.DotProduct_p;
+    tv_code_B.e_slip = tv_code_B.LowpassFilter2.LowpassFilter - tv_code_B.e_slip;
+    tv_code_B.e_slip = fmax(tv_code_B.e_slip, tv_code_P.Constant2_Value_n);
+
+    /* Gain: '<S7>/Gain' */
+    tv_code_B.Gain_h = tv_code_P.K_slip * tv_code_B.e_slip;
+
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S12>/Constant'
+     *  Constant: '<S12>/Constant1'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S12>/Sum'
+     */
+    tv_code_B.e_slip = tv_code_P.Constant1_Value_g + tv_code_P.s_max;
+
+    /* DotProduct: '<S12>/Dot Product' */
+    tv_code_B.DotProduct_n = tv_code_B.e_slip * tv_code_B.car_vx;
+
+    /* Gain: '<S22>/Gain2' incorporates:
+     *  Constant: '<S8>/Constant2'
+     *  Gain: '<S12>/Gain'
+     *  MinMax: '<S8>/e_slip'
+     *  Sum: '<S8>/Sum'
+     */
+    tv_code_B.e_slip = 1.0 / tv_code_P.rw * tv_code_B.DotProduct_n;
+    tv_code_B.e_slip = tv_code_B.LowpassFilter3.LowpassFilter - tv_code_B.e_slip;
+    tv_code_B.e_slip = fmax(tv_code_B.e_slip, tv_code_P.Constant2_Value_f);
+
+    /* Gain: '<S8>/Gain' */
+    tv_code_B.Gain_h4 = tv_code_P.K_slip * tv_code_B.e_slip;
+  }
+
+  /* MinMax: '<S8>/Max' incorporates:
+   *  Constant: '<S7>/Constant2'
+   *  MinMax: '<S7>/Max'
+   *  Sum: '<S7>/Sum1'
+   */
+  tv_code_B.Max_d = tv_code_B.speed_switch[2] - tv_code_B.Gain_h;
+  tv_code_B.Max_d = fmax(tv_code_B.Max_d, tv_code_P.Constant2_Value_n);
 
   /* Gain: '<Root>/trq_rl' */
-  tv_code_B.trq_rl = tv_code_P.trq_rl_Gain * tv_code_B.ManualSwitch[2];
+  tv_code_B.trq_rl = tv_code_P.trq_rl_Gain * tv_code_B.Max_d;
 
-  /* Gain: '<Root>/trq_rr' */
-  tv_code_B.trq_rr = tv_code_P.trq_rr_Gain * tv_code_B.ManualSwitch[3];
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Saturate: '<S16>/Saturation3' */
-    if (tv_code_B.Gain1_b[3] > tv_code_P.Saturation3_UpperSat_m) {
-      /* Saturate: '<S16>/Saturation3' */
-      tv_code_B.Saturation3_l = tv_code_P.Saturation3_UpperSat_m;
-    } else if (tv_code_B.Gain1_b[3] < tv_code_P.Saturation3_LowerSat_i) {
-      /* Saturate: '<S16>/Saturation3' */
-      tv_code_B.Saturation3_l = tv_code_P.Saturation3_LowerSat_i;
-    } else {
-      /* Saturate: '<S16>/Saturation3' */
-      tv_code_B.Saturation3_l = tv_code_B.Gain1_b[3];
-    }
-
-    /* End of Saturate: '<S16>/Saturation3' */
-
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Lookup_n-D: '<S16>/Row index3'
-     *  Saturate: '<S16>/Saturation3'
-     */
-    tv_code_B.Sum_f = look1_binlxpw(tv_code_B.Saturation3_l,
-      tv_code_P.Rowindex3_bp01Data, tv_code_P.Rowindex3_tableData, 200U);
-
-    /* Saturate: '<S16>/Saturation4' */
-    if (tv_code_B.Sum_f > tv_code_P.Saturation4_UpperSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation4_UpperSat;
-    } else if (tv_code_B.Sum_f < tv_code_P.Saturation4_LowerSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation4_LowerSat;
-    }
-
-    /* End of Saturate: '<S16>/Saturation4' */
-
-    /* Rounding: '<S16>/Ceil3' */
-    tv_code_B.Ceil3 = ceil(tv_code_B.Sum_f);
-  }
-
-  /* MATLAB Function: '<S16>/MATLAB Function3' incorporates:
-   *  Constant: '<S16>/Constant7'
-   */
-  tv_code_MATLABFunction(tv_code_P.torque_map, tv_code_B.DotProduct3,
-    tv_code_B.Ceil3, &tv_code_B.Torquefixed);
-
-  /* Gain: '<S16>/Gain13' incorporates:
-   *  Constant: '<S16>/Constant6'
-   *  Lookup_n-D: '<S16>/n-D Lookup Table4'
-   *  Rounding: '<S16>/Ceil3'
-   *  Sum: '<S16>/Add3'
-   */
-  tv_code_B.Gain13 = tv_code_B.Torquefixed - tv_code_P.Constant6_Value;
-  tv_code_B.Gain13 = look2_binlxpw(tv_code_B.Ceil3, tv_code_B.Gain13,
-    tv_code_P.nDLookupTable4_bp01Data, tv_code_P.nDLookupTable4_bp02Data,
-    tv_code_P.stator_current_line_rms, tv_code_P.nDLookupTable4_maxIndex, 201U);
-
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Gain: '<S16>/Gain13'
-   *  Lookup_n-D: '<S16>/2-D Lookup Table3'
-   *  Saturate: '<S16>/Saturation3'
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.P_est = look2_binlxpw(tv_code_B.Saturation3_l, tv_code_B.Gain13,
-    tv_code_P.uDLookupTable3_bp01Data, tv_code_P.uDLookupTable3_bp02Data,
-    tv_code_P.voltage_map, tv_code_P.uDLookupTable3_maxIndex, 201U);
-
-  /* Gain: '<S16>/Gain13' incorporates:
-   *  Product: '<S16>/Product3'
-   */
-  tv_code_B.Gain13 *= tv_code_B.P_est;
-  tv_code_B.Gain13 *= tv_code_P.Gain13_Gain;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Saturate: '<S16>/Saturation' */
-    if (tv_code_B.Gain1_b[0] > tv_code_P.Saturation_UpperSat_or) {
-      /* Saturate: '<S16>/Saturation' */
-      tv_code_B.Saturation_p = tv_code_P.Saturation_UpperSat_or;
-    } else if (tv_code_B.Gain1_b[0] < tv_code_P.Saturation_LowerSat_b) {
-      /* Saturate: '<S16>/Saturation' */
-      tv_code_B.Saturation_p = tv_code_P.Saturation_LowerSat_b;
-    } else {
-      /* Saturate: '<S16>/Saturation' */
-      tv_code_B.Saturation_p = tv_code_B.Gain1_b[0];
-    }
-
-    /* End of Saturate: '<S16>/Saturation' */
-
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Lookup_n-D: '<S16>/Row index'
-     *  Saturate: '<S16>/Saturation'
-     */
-    tv_code_B.Sum_f = look1_binlxpw(tv_code_B.Saturation_p,
-      tv_code_P.Rowindex_bp01Data, tv_code_P.Rowindex_tableData, 200U);
-
-    /* Saturate: '<S16>/Saturation7' */
-    if (tv_code_B.Sum_f > tv_code_P.Saturation7_UpperSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation7_UpperSat;
-    } else if (tv_code_B.Sum_f < tv_code_P.Saturation7_LowerSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation7_LowerSat;
-    }
-
-    /* End of Saturate: '<S16>/Saturation7' */
-
-    /* Rounding: '<S16>/Ceil' */
-    tv_code_B.Ceil = ceil(tv_code_B.Sum_f);
-  }
-
-  /* MATLAB Function: '<S16>/MATLAB Function' incorporates:
-   *  Constant: '<S16>/Constant2'
-   */
-  tv_code_MATLABFunction(tv_code_P.torque_map, tv_code_B.DotProduct_n,
-    tv_code_B.Ceil, &tv_code_B.Torquefixed);
-
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Constant: '<S16>/Constant'
-   *  Lookup_n-D: '<S16>/n-D Lookup Table1'
-   *  Rounding: '<S16>/Ceil'
-   *  Sum: '<S16>/Add'
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.P_est = tv_code_B.Torquefixed - tv_code_P.Constant_Value_e;
-  tv_code_B.P_est = look2_binlxpw(tv_code_B.Ceil, tv_code_B.P_est,
-    tv_code_P.nDLookupTable1_bp01Data, tv_code_P.nDLookupTable1_bp02Data,
-    tv_code_P.stator_current_line_rms, tv_code_P.nDLookupTable1_maxIndex, 201U);
-
-  /* Gain: '<S16>/Gain11' incorporates:
-   *  Lookup_n-D: '<S16>/2-D Lookup Table'
-   *  Saturate: '<S16>/Saturation'
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.Gain11 = look2_binlxpw(tv_code_B.Saturation_p, tv_code_B.P_est,
-    tv_code_P.uDLookupTable_bp01Data, tv_code_P.uDLookupTable_bp02Data,
-    tv_code_P.voltage_map, tv_code_P.uDLookupTable_maxIndex, 201U);
-
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Gain: '<S16>/Gain10'
-   *  Product: '<S16>/Product'
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.P_est *= tv_code_B.Gain11;
-  tv_code_B.P_est *= tv_code_P.Gain10_Gain;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Saturate: '<S16>/Saturation1' */
-    if (tv_code_B.Gain1_b[1] > tv_code_P.Saturation1_UpperSat_c) {
-      /* Saturate: '<S16>/Saturation1' */
-      tv_code_B.Saturation1_c = tv_code_P.Saturation1_UpperSat_c;
-    } else if (tv_code_B.Gain1_b[1] < tv_code_P.Saturation1_LowerSat_h) {
-      /* Saturate: '<S16>/Saturation1' */
-      tv_code_B.Saturation1_c = tv_code_P.Saturation1_LowerSat_h;
-    } else {
-      /* Saturate: '<S16>/Saturation1' */
-      tv_code_B.Saturation1_c = tv_code_B.Gain1_b[1];
-    }
-
-    /* End of Saturate: '<S16>/Saturation1' */
-
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Lookup_n-D: '<S16>/Row index1'
-     *  Saturate: '<S16>/Saturation1'
-     */
-    tv_code_B.Sum_f = look1_binlxpw(tv_code_B.Saturation1_c,
-      tv_code_P.Rowindex1_bp01Data, tv_code_P.Rowindex1_tableData, 200U);
-
-    /* Saturate: '<S16>/Saturation6' */
-    if (tv_code_B.Sum_f > tv_code_P.Saturation6_UpperSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation6_UpperSat;
-    } else if (tv_code_B.Sum_f < tv_code_P.Saturation6_LowerSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation6_LowerSat;
-    }
-
-    /* End of Saturate: '<S16>/Saturation6' */
-
-    /* Rounding: '<S16>/Ceil1' */
-    tv_code_B.Ceil1 = ceil(tv_code_B.Sum_f);
-  }
-
-  /* MATLAB Function: '<S16>/MATLAB Function1' incorporates:
-   *  Constant: '<S16>/Constant3'
-   */
-  tv_code_MATLABFunction(tv_code_P.torque_map, tv_code_B.DotProduct1,
-    tv_code_B.Ceil1, &tv_code_B.Torquefixed);
-
-  /* Gain: '<S16>/Gain11' incorporates:
-   *  Constant: '<S16>/Constant1'
-   *  Lookup_n-D: '<S16>/n-D Lookup Table2'
-   *  Rounding: '<S16>/Ceil1'
-   *  Sum: '<S16>/Add1'
-   */
-  tv_code_B.Gain11 = tv_code_B.Torquefixed - tv_code_P.Constant1_Value_n;
-  tv_code_B.Gain11 = look2_binlxpw(tv_code_B.Ceil1, tv_code_B.Gain11,
-    tv_code_P.nDLookupTable2_bp01Data, tv_code_P.nDLookupTable2_bp02Data,
-    tv_code_P.stator_current_line_rms, tv_code_P.nDLookupTable2_maxIndex, 201U);
-
-  /* Gain: '<S8>/ki' incorporates:
-   *  Gain: '<S16>/Gain11'
-   *  Lookup_n-D: '<S16>/2-D Lookup Table1'
-   *  Saturate: '<S16>/Saturation1'
-   */
-  tv_code_B.ki = look2_binlxpw(tv_code_B.Saturation1_c, tv_code_B.Gain11,
-    tv_code_P.uDLookupTable1_bp01Data, tv_code_P.uDLookupTable1_bp02Data,
-    tv_code_P.voltage_map, tv_code_P.uDLookupTable1_maxIndex, 201U);
-
-  /* Gain: '<S16>/Gain11' incorporates:
-   *  Product: '<S16>/Product1'
-   */
-  tv_code_B.Gain11 *= tv_code_B.ki;
-  tv_code_B.Gain11 *= tv_code_P.Gain11_Gain;
-  if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* Saturate: '<S16>/Saturation2' */
-    if (tv_code_B.Gain1_b[2] > tv_code_P.Saturation2_UpperSat_d) {
-      /* Saturate: '<S16>/Saturation2' */
-      tv_code_B.Saturation2_a = tv_code_P.Saturation2_UpperSat_d;
-    } else if (tv_code_B.Gain1_b[2] < tv_code_P.Saturation2_LowerSat_d) {
-      /* Saturate: '<S16>/Saturation2' */
-      tv_code_B.Saturation2_a = tv_code_P.Saturation2_LowerSat_d;
-    } else {
-      /* Saturate: '<S16>/Saturation2' */
-      tv_code_B.Saturation2_a = tv_code_B.Gain1_b[2];
-    }
-
-    /* End of Saturate: '<S16>/Saturation2' */
-
-    /* Sum: '<S6>/Sum' incorporates:
-     *  Lookup_n-D: '<S16>/Row index2'
-     *  Saturate: '<S16>/Saturation2'
-     */
-    tv_code_B.Sum_f = look1_binlxpw(tv_code_B.Saturation2_a,
-      tv_code_P.Rowindex2_bp01Data, tv_code_P.Rowindex2_tableData, 200U);
-
-    /* Saturate: '<S16>/Saturation5' */
-    if (tv_code_B.Sum_f > tv_code_P.Saturation5_UpperSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation5_UpperSat;
-    } else if (tv_code_B.Sum_f < tv_code_P.Saturation5_LowerSat) {
-      /* Sum: '<S6>/Sum' */
-      tv_code_B.Sum_f = tv_code_P.Saturation5_LowerSat;
-    }
-
-    /* End of Saturate: '<S16>/Saturation5' */
-
-    /* Rounding: '<S16>/Ceil2' */
-    tv_code_B.Ceil2 = ceil(tv_code_B.Sum_f);
-  }
-
-  /* MATLAB Function: '<S16>/MATLAB Function2' incorporates:
-   *  Constant: '<S16>/Constant5'
-   */
-  tv_code_MATLABFunction(tv_code_P.torque_map, tv_code_B.DotProduct2,
-    tv_code_B.Ceil2, &tv_code_B.Torquefixed);
-
-  /* Gain: '<S8>/ki' incorporates:
-   *  Constant: '<S16>/Constant4'
-   *  Lookup_n-D: '<S16>/n-D Lookup Table3'
-   *  Rounding: '<S16>/Ceil2'
-   *  Sum: '<S16>/Add2'
-   */
-  tv_code_B.ki = tv_code_B.Torquefixed - tv_code_P.Constant4_Value;
-  tv_code_B.ki = look2_binlxpw(tv_code_B.Ceil2, tv_code_B.ki,
-    tv_code_P.nDLookupTable3_bp01Data, tv_code_P.nDLookupTable3_bp02Data,
-    tv_code_P.stator_current_line_rms, tv_code_P.nDLookupTable3_maxIndex, 201U);
-
-  /* Sum: '<S8>/Sum' incorporates:
-   *  Gain: '<S8>/ki'
-   *  Lookup_n-D: '<S16>/2-D Lookup Table2'
-   *  Saturate: '<S16>/Saturation2'
-   */
-  tv_code_B.Torquefixed = look2_binlxpw(tv_code_B.Saturation2_a, tv_code_B.ki,
-    tv_code_P.uDLookupTable2_bp01Data, tv_code_P.uDLookupTable2_bp02Data,
-    tv_code_P.voltage_map, tv_code_P.uDLookupTable2_maxIndex, 201U);
-
-  /* Gain: '<S8>/ki' incorporates:
-   *  Gain: '<S16>/Gain12'
-   *  Product: '<S16>/Product2'
-   */
-  tv_code_B.ki *= tv_code_B.Torquefixed;
-  tv_code_B.ki *= tv_code_P.Gain12_Gain;
-
-  /* Gain: '<S27>/Gain' incorporates:
-   *  Sum: '<S16>/Sum'
-   */
-  tv_code_B.P_est = ((tv_code_B.P_est + tv_code_B.Gain11) + tv_code_B.ki) +
-    tv_code_B.Gain13;
-
-  /* Sum: '<S8>/Sum' incorporates:
-   *  Constant: '<S8>/Max_power'
+  /* MinMax: '<S8>/Max' incorporates:
+   *  Constant: '<S8>/Constant2'
    *  Sum: '<S8>/Sum1'
    */
-  tv_code_B.Torquefixed = tv_code_B.P_est - tv_code_P.P_max;
+  tv_code_B.Max_d = tv_code_B.speed_switch[3] - tv_code_B.Gain_h4;
+  tv_code_B.Max_d = fmax(tv_code_B.Max_d, tv_code_P.Constant2_Value_f);
 
-  /* Saturate: '<S8>/Saturation' */
-  if (tv_code_B.Torquefixed > tv_code_P.Saturation_UpperSat_d) {
-    /* Saturate: '<S8>/Saturation' */
-    tv_code_B.PowerError = tv_code_P.Saturation_UpperSat_d;
-  } else if (tv_code_B.Torquefixed < tv_code_P.Saturation_LowerSat_h) {
-    /* Saturate: '<S8>/Saturation' */
-    tv_code_B.PowerError = tv_code_P.Saturation_LowerSat_h;
-  } else {
-    /* Saturate: '<S8>/Saturation' */
-    tv_code_B.PowerError = tv_code_B.Torquefixed;
-  }
-
-  /* End of Saturate: '<S8>/Saturation' */
+  /* Gain: '<Root>/trq_rr' */
+  tv_code_B.trq_rr = tv_code_P.trq_rr_Gain * tv_code_B.Max_d;
   if (rtmIsMajorTimeStep(tv_code_M)) {
-    /* MinMax: '<S8>/Max' incorporates:
-     *  Constant: '<S2>/whl_speed_fl'
-     *  Constant: '<S2>/whl_speed_fr'
-     *  Constant: '<S2>/whl_speed_rl'
-     *  Constant: '<S2>/whl_speed_rr'
+    /* DotProduct: '<S19>/Dot Product1' incorporates:
+     *  Constant: '<S3>/Mz Integative Gain'
      */
-    tv_code_B.Max = fmin(fmin(fmin(tv_code_P.whl_speed_fl_Value,
-      tv_code_P.whl_speed_fr_Value), tv_code_P.whl_speed_rl_Value),
-                         tv_code_P.whl_speed_rr_Value);
+    tv_code_B.DotProduct1 = tv_code_B.Sum * tv_code_P.Mz_I;
 
-    /* DotProduct: '<S15>/Dot Product1' incorporates:
-     *  Constant: '<S2>/Mz Integative Gain'
-     */
-    tv_code_B.DotProduct1_a = tv_code_B.Sum_d * tv_code_P.Mz_I;
-
-    /* Gain: '<S9>/yaw_ref' */
+    /* Gain: '<S13>/yaw_ref' */
     tv_code_B.yaw_ref = tv_code_P.yaw_ref_Gain * tv_code_B.Saturation_j;
-
-    /* DotProduct: '<S6>/Dot Product3' incorporates:
-     *  Constant: '<S1>/trq_rr_in'
-     *  Constant: '<S2>/whl_speed_rr'
-     */
-    tv_code_B.DotProduct3_n = tv_code_P.trq_rr_in_Value *
-      tv_code_P.whl_speed_rr_Value;
-
-    /* DotProduct: '<S6>/Dot Product' incorporates:
-     *  Constant: '<S1>/trq_fl_in'
-     *  Constant: '<S2>/whl_speed_fl'
-     */
-    tv_code_B.DotProduct_i = tv_code_P.trq_fl_in_Value *
-      tv_code_P.whl_speed_fl_Value;
-
-    /* DotProduct: '<S6>/Dot Product1' incorporates:
-     *  Constant: '<S1>/trq_fr_in'
-     *  Constant: '<S2>/whl_speed_fr'
-     */
-    tv_code_B.DotProduct1_l = tv_code_P.trq_fr_in_Value *
-      tv_code_P.whl_speed_fr_Value;
-
-    /* DotProduct: '<S6>/Dot Product2' incorporates:
-     *  Constant: '<S1>/trq_rl_in'
-     *  Constant: '<S2>/whl_speed_rl'
-     */
-    tv_code_B.DotProduct2_a = tv_code_P.trq_rl_in_Value *
-      tv_code_P.whl_speed_rl_Value;
-
-    /* Sum: '<S6>/Sum' */
-    tv_code_B.Sum_f = ((tv_code_B.DotProduct_i + tv_code_B.DotProduct1_l) +
-                       tv_code_B.DotProduct2_a) + tv_code_B.DotProduct3_n;
-
-    /* Saturate: '<S3>/Saturation' */
-    if (tv_code_P.batt_curr > tv_code_P.Saturation_UpperSat_dt) {
-      /* Gain: '<S3>/P_el' */
-      tv_code_B.P_el = tv_code_P.Saturation_UpperSat_dt;
-    } else if (tv_code_P.batt_curr < tv_code_P.Saturation_LowerSat_a) {
-      /* Gain: '<S3>/P_el' */
-      tv_code_B.P_el = tv_code_P.Saturation_LowerSat_a;
-    } else {
-      /* Gain: '<S3>/P_el' */
-      tv_code_B.P_el = tv_code_P.batt_curr;
-    }
-
-    /* End of Saturate: '<S3>/Saturation' */
-
-    /* Gain: '<S3>/P_el' */
-    tv_code_B.P_el *= tv_code_P.batt_voltage;
-
-    /* Product: '<S5>/Divide' */
-    tv_code_B.Divide = tv_code_B.Sum_f / tv_code_B.P_el;
   }
 
-  /* Sum: '<S8>/Sum' incorporates:
-   *  Gain: '<S8>/kp'
-   *  Product: '<S8>/Divide'
-   */
-  tv_code_B.Torquefixed = 1.0 / tv_code_B.Max * tv_code_B.PowerError;
-  tv_code_B.Torquefixed *= tv_code_P.kp_Gain;
-
-  /* Gain: '<S8>/ki' */
-  tv_code_B.ki = tv_code_P.ki_Gain * tv_code_B.Torquefixed;
-
-  /* Sum: '<S8>/Sum' incorporates:
-   *  Sum: '<S8>/Sum2'
-   */
-  tv_code_B.Torquefixed += tv_code_B.ki;
-  tv_code_B.Torquefixed = tv_code_B.Switch - tv_code_B.Torquefixed;
-
-  /* Gain: '<S8>/torque_fixed' */
-  tv_code_B.torque_fixed = tv_code_P.torque_fixed_Gain * tv_code_B.Torquefixed;
-
-  /* Gain: '<S8>/est_power' */
-  tv_code_B.est_power = tv_code_P.est_power_Gain * tv_code_B.P_est;
   if (rtmIsMajorTimeStep(tv_code_M)) {
     rt_ertODEUpdateContinuousStates(&tv_code_M->solverInfo);
 
@@ -1558,13 +1081,8 @@ void tv_code_derivatives(void)
   XDot_tv_code_T *_rtXdot;
   _rtXdot = ((XDot_tv_code_T *) tv_code_M->derivs);
 
-  /* Derivatives for Integrator: '<S15>/Integrator' */
-  _rtXdot->Integrator_CSTATE = tv_code_B.DotProduct1_a;
-
-  /* Derivatives for TransferFcn: '<S3>/Transfer Fcn' */
-  _rtXdot->TransferFcn_CSTATE = tv_code_P.TransferFcn_A *
-    tv_code_X.TransferFcn_CSTATE;
-  _rtXdot->TransferFcn_CSTATE += tv_code_B.Divide;
+  /* Derivatives for Integrator: '<S19>/Integrator' */
+  _rtXdot->Integrator_CSTATE = tv_code_B.DotProduct1;
 }
 
 /* Model initialize function */
@@ -1578,16 +1096,6 @@ void tv_code_initialize(void)
   /* non-finite (run-time) assignments */
   tv_code_P.Saturation_UpperSat = rtInf;
   tv_code_P.Saturation1_UpperSat = rtInf;
-  tv_code_P.Saturation3_UpperSat = rtInf;
-  tv_code_P.Saturation2_UpperSat = rtInf;
-  tv_code_P.Saturation1_UpperSat_p = rtInf;
-  tv_code_P.Saturation_UpperSat_f = rtInf;
-  tv_code_P.Saturation4_UpperSat = rtInf;
-  tv_code_P.Saturation7_UpperSat = rtInf;
-  tv_code_P.Saturation6_UpperSat = rtInf;
-  tv_code_P.Saturation5_UpperSat = rtInf;
-  tv_code_P.Saturation_UpperSat_d = rtInf;
-  tv_code_P.Saturation_UpperSat_dt = rtInf;
 
   {
     /* Setup solver object */
@@ -1622,25 +1130,38 @@ void tv_code_initialize(void)
   rtmSetTPtr(tv_code_M, &tv_code_M->Timing.tArray[0]);
   tv_code_M->Timing.stepSize0 = 0.005;
 
-  /* InitializeConditions for Integrator: '<S15>/Integrator' */
+  /* InitializeConditions for Integrator: '<S19>/Integrator' */
   tv_code_X.Integrator_CSTATE = tv_code_P.Integrator_IC;
 
-  /* InitializeConditions for TransferFcn: '<S3>/Transfer Fcn' */
-  tv_code_X.TransferFcn_CSTATE = 0.0;
+  /* Constant: '<S3>/whl_speed_fl' */
+  tv_code_LowpassFilter_Init(&tv_code_DW.LowpassFilter);
 
-  /* Constant: '<S2>/ax' */
+  /* Constant: '<S3>/whl_speed_fr' */
+  tv_code_LowpassFilter_Init(&tv_code_DW.LowpassFilter1);
+
+  /* Constant: '<S3>/whl_speed_rl' */
+  tv_code_LowpassFilter_Init(&tv_code_DW.LowpassFilter2);
+
+  /* Constant: '<S3>/whl_speed_rr' */
+  tv_code_LowpassFilter_Init(&tv_code_DW.LowpassFilter3);
+
+  /* Constant: '<S3>/ax' */
   tv_code_ax_filter_Init(&tv_code_DW.ax_filter);
 
-  /* Constant: '<S2>/ay' */
+  /* Constant: '<S3>/ay' */
   tv_code_ax_filter_Init(&tv_code_DW.ay_filter);
 
-  /* Constant: '<S2>/yaw_rate' */
+  /* Constant: '<S3>/yaw_rate' */
   tv_code_ax_filter_Init(&tv_code_DW.yaw_rate_filter);
 }
 
 /* Model terminate function */
 void tv_code_terminate(void)
 {
+  tv_code_LowpassFilter_Term(&tv_code_DW.LowpassFilter);
+  tv_code_LowpassFilter_Term(&tv_code_DW.LowpassFilter1);
+  tv_code_LowpassFilter_Term(&tv_code_DW.LowpassFilter2);
+  tv_code_LowpassFilter_Term(&tv_code_DW.LowpassFilter3);
   tv_code_ax_filter_Term(&tv_code_DW.ax_filter);
   tv_code_ax_filter_Term(&tv_code_DW.ay_filter);
   tv_code_ax_filter_Term(&tv_code_DW.yaw_rate_filter);

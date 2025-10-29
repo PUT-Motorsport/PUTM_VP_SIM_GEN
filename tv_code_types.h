@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.47
+ * Model version                  : 1.48
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Fri Oct  3 14:30:30 2025
+ * C/C++ source code generated on : Wed Oct 29 15:40:41 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Linux 64)
@@ -20,30 +20,30 @@
 #ifndef RTW_HEADER_tv_code_types_h_
 #define RTW_HEADER_tv_code_types_h_
 #include "rtwtypes.h"
-#ifndef struct_tag_YGFa0cxEmLPN5OOzoMPX6F
-#define struct_tag_YGFa0cxEmLPN5OOzoMPX6F
+#ifndef struct_tag_sJjs0yYSBRuSf9beYqUoK
+#define struct_tag_sJjs0yYSBRuSf9beYqUoK
 
-struct tag_YGFa0cxEmLPN5OOzoMPX6F
+struct tag_sJjs0yYSBRuSf9beYqUoK
 {
   int32_T S0_isInitialized;
-  real_T W0_states[8];
+  real_T W0_states[16];
   real_T P0_InitialStates;
-  real_T P1_Coefficients[9];
+  real_T P1_Coefficients[17];
 };
 
-#endif                                 /* struct_tag_YGFa0cxEmLPN5OOzoMPX6F */
+#endif                                 /* struct_tag_sJjs0yYSBRuSf9beYqUoK */
 
 #ifndef typedef_b_dsp_FIRFilter_0_tv_code_T
 #define typedef_b_dsp_FIRFilter_0_tv_code_T
 
-typedef struct tag_YGFa0cxEmLPN5OOzoMPX6F b_dsp_FIRFilter_0_tv_code_T;
+typedef struct tag_sJjs0yYSBRuSf9beYqUoK b_dsp_FIRFilter_0_tv_code_T;
 
 #endif                                 /* typedef_b_dsp_FIRFilter_0_tv_code_T */
 
-#ifndef struct_tag_85cEWOJhHsTP3Esf8Mi1pG
-#define struct_tag_85cEWOJhHsTP3Esf8Mi1pG
+#ifndef struct_tag_rPkjizgMmqpu58O9GKZyKE
+#define struct_tag_rPkjizgMmqpu58O9GKZyKE
 
-struct tag_85cEWOJhHsTP3Esf8Mi1pG
+struct tag_rPkjizgMmqpu58O9GKZyKE
 {
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
@@ -51,12 +51,12 @@ struct tag_85cEWOJhHsTP3Esf8Mi1pG
   b_dsp_FIRFilter_0_tv_code_T cSFunObject;
 };
 
-#endif                                 /* struct_tag_85cEWOJhHsTP3Esf8Mi1pG */
+#endif                                 /* struct_tag_rPkjizgMmqpu58O9GKZyKE */
 
 #ifndef typedef_b_dspcodegen_FIRFilter_tv_cod_T
 #define typedef_b_dspcodegen_FIRFilter_tv_cod_T
 
-typedef struct tag_85cEWOJhHsTP3Esf8Mi1pG b_dspcodegen_FIRFilter_tv_cod_T;
+typedef struct tag_rPkjizgMmqpu58O9GKZyKE b_dspcodegen_FIRFilter_tv_cod_T;
 
 #endif                             /* typedef_b_dspcodegen_FIRFilter_tv_cod_T */
 
@@ -77,10 +77,10 @@ typedef struct tag_BlgwLpgj2bjudmbmVKWwDE cell_wrap_tv_code_T;
 
 #endif                                 /* typedef_cell_wrap_tv_code_T */
 
-#ifndef struct_tag_5puAQeCvQeiHcCpKgTlMeD
-#define struct_tag_5puAQeCvQeiHcCpKgTlMeD
+#ifndef struct_tag_UXPy6jI7YNzMgIKklQ6H5
+#define struct_tag_UXPy6jI7YNzMgIKklQ6H5
 
-struct tag_5puAQeCvQeiHcCpKgTlMeD
+struct tag_UXPy6jI7YNzMgIKklQ6H5
 {
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
@@ -91,14 +91,77 @@ struct tag_5puAQeCvQeiHcCpKgTlMeD
   b_dspcodegen_FIRFilter_tv_cod_T _pobj0;
 };
 
-#endif                                 /* struct_tag_5puAQeCvQeiHcCpKgTlMeD */
+#endif                                 /* struct_tag_UXPy6jI7YNzMgIKklQ6H5 */
 
 #ifndef typedef_dsp_simulink_LowpassFilter_tv_T
 #define typedef_dsp_simulink_LowpassFilter_tv_T
 
-typedef struct tag_5puAQeCvQeiHcCpKgTlMeD dsp_simulink_LowpassFilter_tv_T;
+typedef struct tag_UXPy6jI7YNzMgIKklQ6H5 dsp_simulink_LowpassFilter_tv_T;
 
 #endif                             /* typedef_dsp_simulink_LowpassFilter_tv_T */
+
+#ifndef struct_tag_YGFa0cxEmLPN5OOzoMPX6F
+#define struct_tag_YGFa0cxEmLPN5OOzoMPX6F
+
+struct tag_YGFa0cxEmLPN5OOzoMPX6F
+{
+  int32_T S0_isInitialized;
+  real_T W0_states[8];
+  real_T P0_InitialStates;
+  real_T P1_Coefficients[9];
+};
+
+#endif                                 /* struct_tag_YGFa0cxEmLPN5OOzoMPX6F */
+
+#ifndef typedef_b_dsp_FIRFilter_0_tv_code_a_T
+#define typedef_b_dsp_FIRFilter_0_tv_code_a_T
+
+typedef struct tag_YGFa0cxEmLPN5OOzoMPX6F b_dsp_FIRFilter_0_tv_code_a_T;
+
+#endif                               /* typedef_b_dsp_FIRFilter_0_tv_code_a_T */
+
+#ifndef struct_tag_85cEWOJhHsTP3Esf8Mi1pG
+#define struct_tag_85cEWOJhHsTP3Esf8Mi1pG
+
+struct tag_85cEWOJhHsTP3Esf8Mi1pG
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_dsp_FIRFilter_0_tv_code_a_T cSFunObject;
+};
+
+#endif                                 /* struct_tag_85cEWOJhHsTP3Esf8Mi1pG */
+
+#ifndef typedef_b_dspcodegen_FIRFilter_tv_c_l_T
+#define typedef_b_dspcodegen_FIRFilter_tv_c_l_T
+
+typedef struct tag_85cEWOJhHsTP3Esf8Mi1pG b_dspcodegen_FIRFilter_tv_c_l_T;
+
+#endif                             /* typedef_b_dspcodegen_FIRFilter_tv_c_l_T */
+
+#ifndef struct_tag_5puAQeCvQeiHcCpKgTlMeD
+#define struct_tag_5puAQeCvQeiHcCpKgTlMeD
+
+struct tag_5puAQeCvQeiHcCpKgTlMeD
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  cell_wrap_tv_code_T inputVarSize;
+  int32_T NumChannels;
+  b_dspcodegen_FIRFilter_tv_c_l_T *FilterObj;
+  b_dspcodegen_FIRFilter_tv_c_l_T _pobj0;
+};
+
+#endif                                 /* struct_tag_5puAQeCvQeiHcCpKgTlMeD */
+
+#ifndef typedef_dsp_simulink_LowpassFilter_j_T
+#define typedef_dsp_simulink_LowpassFilter_j_T
+
+typedef struct tag_5puAQeCvQeiHcCpKgTlMeD dsp_simulink_LowpassFilter_j_T;
+
+#endif                              /* typedef_dsp_simulink_LowpassFilter_j_T */
 
 /* Parameters (default storage) */
 typedef struct P_tv_code_T_ P_tv_code_T;
