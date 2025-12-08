@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.48
+ * Model version                  : 1.55
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed Oct 29 15:40:41 2025
+ * C/C++ source code generated on : Mon Nov  3 18:13:48 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Linux 64)
@@ -164,7 +164,10 @@ P_tv_code_T tv_code_P = {
 
   /* Variable: rw
    * Referenced by:
-   *   '<S15>/car_vx'
+   *   '<S3>/Gain'
+   *   '<S3>/Gain1'
+   *   '<S3>/Gain2'
+   *   '<S3>/Gain3'
    *   '<S9>/Gain'
    *   '<S10>/Gain'
    *   '<S11>/Gain'
@@ -217,6 +220,11 @@ P_tv_code_T tv_code_P = {
    */
   -1.0,
 
+  /* Expression: 1/4
+   * Referenced by: '<S15>/Gain'
+   */
+  0.25,
+
   /* Expression: -1
    * Referenced by: '<S14>/Gain'
    */
@@ -267,25 +275,60 @@ P_tv_code_T tv_code_P = {
    */
   0.0,
 
+  /* Expression: 1/14.25
+   * Referenced by: '<S3>/Gain5'
+   */
+  0.070175438596491224,
+
+  /* Expression: pi/30
+   * Referenced by: '<S3>/Gain8'
+   */
+  0.10471975511965977,
+
   /* Expression: 0
    * Referenced by: '<S3>/whl_speed_fr'
    */
   0.0,
+
+  /* Expression: 1/14.25
+   * Referenced by: '<S3>/Gain4'
+   */
+  0.070175438596491224,
+
+  /* Expression: pi/30
+   * Referenced by: '<S3>/Gain9'
+   */
+  0.10471975511965977,
 
   /* Expression: 0
    * Referenced by: '<S3>/whl_speed_rl'
    */
   0.0,
 
+  /* Expression: 1/14.25
+   * Referenced by: '<S3>/Gain6'
+   */
+  0.070175438596491224,
+
+  /* Expression: pi/30
+   * Referenced by: '<S3>/Gain10'
+   */
+  0.10471975511965977,
+
   /* Expression: 0
    * Referenced by: '<S3>/whl_speed_rr'
    */
   0.0,
 
-  /* Expression: 1/4
-   * Referenced by: '<S15>/Gain'
+  /* Expression: 1/14.25
+   * Referenced by: '<S3>/Gain7'
    */
-  0.25,
+  0.070175438596491224,
+
+  /* Expression: pi/30
+   * Referenced by: '<S3>/Gain11'
+   */
+  0.10471975511965977,
 
   /* Expression: 0
    * Referenced by: '<S14>/Switch'
@@ -357,11 +400,6 @@ P_tv_code_T tv_code_P = {
    */
   1.0,
 
-  /* Expression: 1
-   * Referenced by: '<Root>/trq_fl'
-   */
-  1.0,
-
   /* Expression: 0
    * Referenced by: '<S6>/Constant2'
    */
@@ -369,11 +407,6 @@ P_tv_code_T tv_code_P = {
 
   /* Expression: 1
    * Referenced by: '<S10>/Constant1'
-   */
-  1.0,
-
-  /* Expression: 1
-   * Referenced by: '<Root>/trq_fr'
    */
   1.0,
 
@@ -387,11 +420,6 @@ P_tv_code_T tv_code_P = {
    */
   1.0,
 
-  /* Expression: 1
-   * Referenced by: '<Root>/trq_rl'
-   */
-  1.0,
-
   /* Expression: 0
    * Referenced by: '<S8>/Constant2'
    */
@@ -399,6 +427,21 @@ P_tv_code_T tv_code_P = {
 
   /* Expression: 1
    * Referenced by: '<S12>/Constant1'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<Root>/trq_fl'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<Root>/trq_fr'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<Root>/trq_rl'
    */
   1.0,
 
@@ -414,6 +457,16 @@ P_tv_code_T tv_code_P = {
 
   /* Computed Parameter: regen_switch_CurrentSetting
    * Referenced by: '<S14>/regen_switch'
+   */
+  1U,
+
+  /* Computed Parameter: avg_min_speed_switch_CurrentSet
+   * Referenced by: '<S15>/avg_min_speed_switch'
+   */
+  1U,
+
+  /* Computed Parameter: slip_switch_CurrentSetting
+   * Referenced by: '<S1>/slip_switch'
    */
   1U
 };

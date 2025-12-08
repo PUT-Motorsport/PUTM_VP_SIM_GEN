@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.48
+ * Model version                  : 1.55
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed Oct 29 15:40:41 2025
+ * C/C++ source code generated on : Mon Nov  3 18:13:48 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Linux 64)
@@ -36,14 +36,14 @@
 #define rtmSetTPtr(rtm, val)           ((rtm)->Timing.t = (val))
 #endif
 
-extern void tv_code_LowpassFilter_Init(DW_LowpassFilter_tv_code_T *localDW);
-extern void tv_code_LowpassFilter(real_T rtu_0, B_LowpassFilter_tv_code_T
-  *localB, DW_LowpassFilter_tv_code_T *localDW);
 extern void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW);
 extern void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
   DW_ax_filter_tv_code_T *localDW);
-extern void tv_code_LowpassFilter_Term(DW_LowpassFilter_tv_code_T *localDW);
+extern void tv_code_speed_filter_fl_Init(DW_speed_filter_fl_tv_code_T *localDW);
+extern void tv_code_speed_filter_fl(real_T rtu_0, B_speed_filter_fl_tv_code_T
+  *localB, DW_speed_filter_fl_tv_code_T *localDW);
 extern void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW);
+extern void tv_code_speed_filter_fl_Term(DW_speed_filter_fl_tv_code_T *localDW);
 
 /* private model entry point functions */
 extern void tv_code_derivatives(void);
