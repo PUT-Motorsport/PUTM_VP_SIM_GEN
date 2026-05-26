@@ -29,7 +29,6 @@ extern "C" {
 #endif
 
 /* Add prefix to internal symbols */
-#define casadi_copy CASADI_PREFIX(copy)
 #define casadi_f0 CASADI_PREFIX(f0)
 #define casadi_fabs CASADI_PREFIX(fabs)
 #define casadi_fmax CASADI_PREFIX(fmax)
@@ -64,17 +63,6 @@ casadi_real casadi_fmax(casadi_real x, casadi_real y) {
 #endif
 }
 
-void casadi_copy(const casadi_real* x, casadi_int n, casadi_real* y) {
-  casadi_int i;
-  if (y) {
-    if (x) {
-      for (i=0; i<n; ++i) *y++ = *x++;
-    } else {
-      for (i=0; i<n; ++i) *y++ = 0.;
-    }
-  }
-}
-
 casadi_real casadi_fabs(casadi_real x) {
 /* Pre-c99 compatibility */
 #if __STDC_VERSION__ < 199901L
@@ -86,18 +74,20 @@ casadi_real casadi_fabs(casadi_real x) {
 
 casadi_real casadi_sq(casadi_real x) { return x*x;}
 
-static const casadi_int casadi_s0[3] = {7, 1, 1};
+static const casadi_int casadi_s0[3] = {11, 1, 1};
 static const casadi_int casadi_s1[3] = {4, 1, 1};
 static const casadi_int casadi_s2[3] = {0, 0, 1};
 static const casadi_int casadi_s3[3] = {8, 1, 1};
 
-static const casadi_real casadi_zeros[8] = {0., 0., 0., 0., 0., 0., 0., 0.};
+static const casadi_real casadi_zeros[11] = 
+  {0., 0., 0., 0., 0., 0., 0., 0.,
+  0., 0., 0.};
 
-/* tv_nmpc_constr_h_fun:(i0[7],i1[4],i2[],i3[8])->(o0[4]) */
+/* tv_nmpc_constr_h_fun:(i0[11],i1[4],i2[],i3[8])->(o0[4]) */
 static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem) {
-  casadi_real *rr, w00, w02, w03, w04, w05, w06, *w07=w+14, w08, w09, w10, w11;
-  casadi_real w12, w13, w14, w15, w16, w17, w18, w19, w20, w21, w22;
-  const casadi_real *cs, *wr01;
+  casadi_real w00, w02, w03, w04, w05, w06, w08, w09, w10, w11, w12, w13;
+  casadi_real w14, w15, w16, w17, w18, w19, w20, w21, w22;
+  const casadi_real *wr01, *wr07;
   /* #0: @0 = 1.5 */
   w00 = 1.5000000000000000e+00;
   /* #1: @1 = input[3][0] */
@@ -117,17 +107,17 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   /* #8: @6 = 0.193 */
   w06 = 1.9300000000000000e-01;
   /* #9: @7 = input[0][0] */
-  casadi_copy(arg[0], 7, w07);
+  wr07 = arg[0] ? arg[0] : casadi_zeros;
   /* #10: @8 = @7[3] */
-  for (rr=(&w08), cs=w07+3; cs!=w07+4; cs+=1) *rr++ = *cs;
+  w08 = wr07[3];
   /* #11: @8 = (@6*@8) */
   w08  = (w06*w08);
   /* #12: @9 = @7[0] */
-  for (rr=(&w09), cs=w07+0; cs!=w07+1; cs+=1) *rr++ = *cs;
+  w09 = wr07[0];
   /* #13: @10 = 0.621 */
   w10 = 6.2100000000000000e-01;
   /* #14: @11 = @7[2] */
-  for (rr=(&w11), cs=w07+2; cs!=w07+3; cs+=1) *rr++ = *cs;
+  w11 = wr07[2];
   /* #15: @10 = (@10*@11) */
   w10 *= w11;
   /* #16: @12 = (@9-@10) */
@@ -139,7 +129,7 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   /* #19: @15 = (@12*@14) */
   w15  = (w12*w14);
   /* #20: @16 = @7[1] */
-  for (rr=(&w16), cs=w07+1; cs!=w07+2; cs+=1) *rr++ = *cs;
+  w16 = wr07[1];
   /* #21: @17 = 0.765 */
   w17 = 7.6500000000000001e-01;
   /* #22: @17 = (@17*@11) */
@@ -251,7 +241,7 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   /* #75: @15 = (@0*@15) */
   w15  = (w00*w15);
   /* #76: @2 = @7[4] */
-  for (rr=(&w02), cs=w07+4; cs!=w07+5; cs+=1) *rr++ = *cs;
+  w02 = wr07[4];
   /* #77: @2 = (@6*@2) */
   w02  = (w06*w02);
   /* #78: @9 = (@9+@10) */
@@ -361,7 +351,7 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   /* #130: @13 = (@0*@13) */
   w13  = (w00*w13);
   /* #131: @2 = @7[5] */
-  for (rr=(&w02), cs=w07+5; cs!=w07+6; cs+=1) *rr++ = *cs;
+  w02 = wr07[5];
   /* #132: @2 = (@6*@2) */
   w02  = (w06*w02);
   /* #133: @15 = fabs(@12) */
@@ -441,7 +431,7 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   /* #170: @0 = (@0*@2) */
   w00 *= w02;
   /* #171: @2 = @7[6] */
-  for (rr=(&w02), cs=w07+6; cs!=w07+7; cs+=1) *rr++ = *cs;
+  w02 = wr07[6];
   /* #172: @6 = (@6*@2) */
   w06 *= w02;
   /* #173: @2 = fabs(@9) */
@@ -591,7 +581,7 @@ CASADI_SYMBOL_EXPORT int tv_nmpc_constr_h_fun_work(casadi_int *sz_arg, casadi_in
   if (sz_arg) *sz_arg = 6;
   if (sz_res) *sz_res = 2;
   if (sz_iw) *sz_iw = 0;
-  if (sz_w) *sz_w = 36;
+  if (sz_w) *sz_w = 40;
   return 0;
 }
 
@@ -599,7 +589,7 @@ CASADI_SYMBOL_EXPORT int tv_nmpc_constr_h_fun_work_bytes(casadi_int *sz_arg, cas
   if (sz_arg) *sz_arg = 6*sizeof(const casadi_real*);
   if (sz_res) *sz_res = 2*sizeof(casadi_real*);
   if (sz_iw) *sz_iw = 0*sizeof(casadi_int);
-  if (sz_w) *sz_w = 36*sizeof(casadi_real);
+  if (sz_w) *sz_w = 40*sizeof(casadi_real);
   return 0;
 }
 

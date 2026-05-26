@@ -50,7 +50,7 @@ classdef tv_nmpc_mex_solver < handle
             obj.C_ocp = acados_mex_create_tv_nmpc();
             % to have path to destructor when changing directory
             addpath('.')
-            obj.N = 15;
+            obj.N = 20;
             obj.name = 'tv_nmpc';
         end
 

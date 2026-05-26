@@ -42,6 +42,7 @@
 #include "tv_nmpc_model/tv_nmpc_model.h"
 
 
+#include "tv_nmpc_constraints/tv_nmpc_constraints.h"
 #include "tv_nmpc_cost/tv_nmpc_cost.h"
 
 
@@ -338,6 +339,16 @@ void tv_nmpc_acados_create_setup_functions(tv_nmpc_solver_capsule* capsule)
     ext_fun_opts.external_workspace = true;
     if (N > 0)
     {
+        // constraints.constr_type == "BGH" and dims.nh > 0
+        capsule->nl_constr_h_fun_jac = (external_function_external_param_casadi *) malloc(sizeof(external_function_external_param_casadi)*(N-1));
+        for (int i = 0; i < N-1; i++) {
+            MAP_CASADI_FNC(nl_constr_h_fun_jac[i], tv_nmpc_constr_h_fun_jac_uxt_zt);
+        }
+        capsule->nl_constr_h_fun = (external_function_external_param_casadi *) malloc(sizeof(external_function_external_param_casadi)*(N-1));
+        for (int i = 0; i < N-1; i++) {
+            MAP_CASADI_FNC(nl_constr_h_fun[i], tv_nmpc_constr_h_fun);
+        }
+    
         // external cost
         MAP_CASADI_FNC(ext_cost_0_fun, tv_nmpc_cost_ext_cost_0_fun);
         MAP_CASADI_FNC(ext_cost_0_fun_jac, tv_nmpc_cost_ext_cost_0_fun_jac);
@@ -455,29 +466,34 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     {
         // set time_steps
     
-        double time_step = 0.003333333333333334;
+        double time_step = 0.005;
         for (int i = 0; i < N; i++)
         {
             ocp_nlp_in_set(nlp_config, nlp_dims, nlp_in, i, "Ts", &time_step);
         }
         // set cost scaling
         double* cost_scaling = malloc((N+1)*sizeof(double));
-        cost_scaling[0] = 0.003333333333333334;
-        cost_scaling[1] = 0.003333333333333334;
-        cost_scaling[2] = 0.003333333333333334;
-        cost_scaling[3] = 0.003333333333333334;
-        cost_scaling[4] = 0.003333333333333334;
-        cost_scaling[5] = 0.003333333333333334;
-        cost_scaling[6] = 0.003333333333333334;
-        cost_scaling[7] = 0.003333333333333334;
-        cost_scaling[8] = 0.003333333333333334;
-        cost_scaling[9] = 0.003333333333333334;
-        cost_scaling[10] = 0.003333333333333334;
-        cost_scaling[11] = 0.003333333333333334;
-        cost_scaling[12] = 0.003333333333333334;
-        cost_scaling[13] = 0.003333333333333334;
-        cost_scaling[14] = 0.003333333333333334;
-        cost_scaling[15] = 1;
+        cost_scaling[0] = 0.005;
+        cost_scaling[1] = 0.005;
+        cost_scaling[2] = 0.005;
+        cost_scaling[3] = 0.005;
+        cost_scaling[4] = 0.005;
+        cost_scaling[5] = 0.005;
+        cost_scaling[6] = 0.005;
+        cost_scaling[7] = 0.005;
+        cost_scaling[8] = 0.005;
+        cost_scaling[9] = 0.005;
+        cost_scaling[10] = 0.005;
+        cost_scaling[11] = 0.005;
+        cost_scaling[12] = 0.005;
+        cost_scaling[13] = 0.005;
+        cost_scaling[14] = 0.005;
+        cost_scaling[15] = 0.005;
+        cost_scaling[16] = 0.005;
+        cost_scaling[17] = 0.005;
+        cost_scaling[18] = 0.005;
+        cost_scaling[19] = 0.005;
+        cost_scaling[20] = 1;
         for (int i = 0; i <= N; i++)
         {
             ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "scaling", &cost_scaling[i]);
@@ -518,6 +534,38 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
 
 
+    // slacks
+    double* zlumem = calloc(4*NS, sizeof(double));
+    double* Zl = zlumem+NS*0;
+    double* Zu = zlumem+NS*1;
+    double* zl = zlumem+NS*2;
+    double* zu = zlumem+NS*3;
+    // change only the non-zero elements:
+    Zl[0] = 10;
+    Zl[1] = 10;
+    Zl[2] = 10;
+    Zl[3] = 10;
+    Zu[0] = 10;
+    Zu[1] = 10;
+    Zu[2] = 10;
+    Zu[3] = 10;
+    zl[0] = 100;
+    zl[1] = 100;
+    zl[2] = 100;
+    zl[3] = 100;
+    zu[0] = 100;
+    zu[1] = 100;
+    zu[2] = 100;
+    zu[3] = 100;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "Zl", Zl);
+        ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "Zu", Zu);
+        ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "zl", zl);
+        ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "zu", zu);
+    }
+    free(zlumem);
 
 
 
@@ -619,13 +667,9 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubx = calloc(2*NBX, sizeof(double));
     double* lbx = lubx;
     double* ubx = lubx + NBX;
-    lbx[0] = -20;
     ubx[0] = 186;
-    lbx[1] = -20;
     ubx[1] = 186;
-    lbx[2] = -20;
     ubx[2] = 186;
-    lbx[3] = -20;
     ubx[3] = 186;
 
     for (int i = 1; i < N; i++)
@@ -638,6 +682,24 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     free(lubx);
 
 
+    // set up nonlinear constraints for stage 1 to N-1
+    double* luh = calloc(2*NH, sizeof(double));
+    double* lh = luh;
+    double* uh = luh + NH;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set_external_param_fun(nlp_config, nlp_dims, nlp_in, i, "nl_constr_h_fun_jac",
+                                      &capsule->nl_constr_h_fun_jac[i-1]);
+        ocp_nlp_constraints_model_set_external_param_fun(nlp_config, nlp_dims, nlp_in, i, "nl_constr_h_fun",
+                                      &capsule->nl_constr_h_fun[i-1]);
+        
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lh", lh);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "uh", uh);
+        
+        
+    }
+    free(luh);
 
 
 
@@ -646,6 +708,24 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
 
 
+    // set up soft bounds for nonlinear constraints
+    int* idxsh = malloc(NSH * sizeof(int));
+    idxsh[0] = 0;
+    idxsh[1] = 1;
+    idxsh[2] = 2;
+    idxsh[3] = 3;
+    double* lush = calloc(2*NSH, sizeof(double));
+    double* lsh = lush;
+    double* ush = lush + NSH;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxsh", idxsh);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lsh", lsh);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "ush", ush);
+    }
+    free(idxsh);
+    free(lush);
 
 
 
@@ -740,7 +820,7 @@ static void tv_nmpc_acados_create_set_opts(tv_nmpc_solver_capsule* capsule)
     ocp_nlp_solver_opts_set(nlp_config, nlp_opts, "levenberg_marquardt", &levenberg_marquardt);
 
     /* options QP solver */
-    int qp_solver_cond_N;const int qp_solver_cond_N_ori = 15;
+    int qp_solver_cond_N;const int qp_solver_cond_N_ori = 20;
     qp_solver_cond_N = N < qp_solver_cond_N_ori ? N : qp_solver_cond_N_ori; // use the minimum value here
     ocp_nlp_solver_opts_set(nlp_config, nlp_opts, "qp_cond_N", &qp_solver_cond_N);
 
@@ -1069,6 +1149,13 @@ int tv_nmpc_acados_free(tv_nmpc_solver_capsule* capsule)
     
 
     // constraints
+    for (int i = 0; i < N-1; i++)
+    {
+        external_function_external_param_casadi_free(&capsule->nl_constr_h_fun_jac[i]);
+        external_function_external_param_casadi_free(&capsule->nl_constr_h_fun[i]);
+    }
+    free(capsule->nl_constr_h_fun_jac);
+    free(capsule->nl_constr_h_fun);
 
 
 

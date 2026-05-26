@@ -46,7 +46,7 @@
 #define TV_NMPC_NBU    4
 #define TV_NMPC_NSBX   0
 #define TV_NMPC_NSBU   0
-#define TV_NMPC_NSH    0
+#define TV_NMPC_NSH    4
 #define TV_NMPC_NSH0   0
 #define TV_NMPC_NSG    0
 #define TV_NMPC_NSPHI  0
@@ -55,7 +55,7 @@
 #define TV_NMPC_NSPHIN 0
 #define TV_NMPC_NSPHI0 0
 #define TV_NMPC_NSBXN  0
-#define TV_NMPC_NS     0
+#define TV_NMPC_NS     4
 #define TV_NMPC_NS0    0
 #define TV_NMPC_NSN    0
 #define TV_NMPC_NG     0
@@ -64,8 +64,8 @@
 #define TV_NMPC_NY0    0
 #define TV_NMPC_NY     0
 #define TV_NMPC_NYN    0
-#define TV_NMPC_N      15
-#define TV_NMPC_NH     0
+#define TV_NMPC_N      20
+#define TV_NMPC_NH     4
 #define TV_NMPC_NHN    0
 #define TV_NMPC_NH0    0
 #define TV_NMPC_NPHI0  0
@@ -129,6 +129,10 @@ typedef struct tv_nmpc_solver_capsule
 
 
     // constraints
+    external_function_external_param_casadi *nl_constr_h_fun_jac;
+    external_function_external_param_casadi *nl_constr_h_fun;
+
+
 
 
 

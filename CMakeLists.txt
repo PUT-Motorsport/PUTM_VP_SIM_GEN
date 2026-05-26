@@ -89,6 +89,8 @@ if(${BUILD_ACADOS_SOLVER_LIB} OR ${BUILD_ACADOS_OCP_SOLVER_LIB} OR ${BUILD_ACADO
         tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun.c
         tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun_jac.c
         tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun_jac_hess.c
+        tv_nmpc_constraints/tv_nmpc_constr_h_fun.c
+        tv_nmpc_constraints/tv_nmpc_constr_h_fun_jac_uxt_zt.c
         acados_solver_tv_nmpc.c
     )
     add_library(${OCP_OBJ} OBJECT ${OCP_SRC})

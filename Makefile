@@ -55,6 +55,8 @@ OCP_SRC+= tv_nmpc_cost/tv_nmpc_cost_ext_cost_fun_jac_hess.c
 OCP_SRC+= tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun.c
 OCP_SRC+= tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun_jac.c
 OCP_SRC+= tv_nmpc_cost/tv_nmpc_cost_ext_cost_e_fun_jac_hess.c
+OCP_SRC+= tv_nmpc_constraints/tv_nmpc_constr_h_fun.c
+OCP_SRC+= tv_nmpc_constraints/tv_nmpc_constr_h_fun_jac_uxt_zt.c
 
 OCP_SRC+= acados_solver_tv_nmpc.c
 
