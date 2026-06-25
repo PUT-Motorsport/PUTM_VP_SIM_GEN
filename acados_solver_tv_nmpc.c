@@ -466,33 +466,33 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     {
         // set time_steps
     
-        double time_step = 0.005;
+        double time_step = 0.015;
         for (int i = 0; i < N; i++)
         {
             ocp_nlp_in_set(nlp_config, nlp_dims, nlp_in, i, "Ts", &time_step);
         }
         // set cost scaling
         double* cost_scaling = malloc((N+1)*sizeof(double));
-        cost_scaling[0] = 0.005;
-        cost_scaling[1] = 0.005;
-        cost_scaling[2] = 0.005;
-        cost_scaling[3] = 0.005;
-        cost_scaling[4] = 0.005;
-        cost_scaling[5] = 0.005;
-        cost_scaling[6] = 0.005;
-        cost_scaling[7] = 0.005;
-        cost_scaling[8] = 0.005;
-        cost_scaling[9] = 0.005;
-        cost_scaling[10] = 0.005;
-        cost_scaling[11] = 0.005;
-        cost_scaling[12] = 0.005;
-        cost_scaling[13] = 0.005;
-        cost_scaling[14] = 0.005;
-        cost_scaling[15] = 0.005;
-        cost_scaling[16] = 0.005;
-        cost_scaling[17] = 0.005;
-        cost_scaling[18] = 0.005;
-        cost_scaling[19] = 0.005;
+        cost_scaling[0] = 0.015;
+        cost_scaling[1] = 0.015;
+        cost_scaling[2] = 0.015;
+        cost_scaling[3] = 0.015;
+        cost_scaling[4] = 0.015;
+        cost_scaling[5] = 0.015;
+        cost_scaling[6] = 0.015;
+        cost_scaling[7] = 0.015;
+        cost_scaling[8] = 0.015;
+        cost_scaling[9] = 0.015;
+        cost_scaling[10] = 0.015;
+        cost_scaling[11] = 0.015;
+        cost_scaling[12] = 0.015;
+        cost_scaling[13] = 0.015;
+        cost_scaling[14] = 0.015;
+        cost_scaling[15] = 0.015;
+        cost_scaling[16] = 0.015;
+        cost_scaling[17] = 0.015;
+        cost_scaling[18] = 0.015;
+        cost_scaling[19] = 0.015;
         cost_scaling[20] = 1;
         for (int i = 0; i <= N; i++)
         {
@@ -633,14 +633,14 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubu = calloc(2*NBU, sizeof(double));
     double* lbu = lubu;
     double* ubu = lubu + NBU;
-    lbu[0] = -5000;
-    ubu[0] = 5000;
-    lbu[1] = -5000;
-    ubu[1] = 5000;
-    lbu[2] = -5000;
-    ubu[2] = 5000;
-    lbu[3] = -5000;
-    ubu[3] = 5000;
+    lbu[0] = -1000;
+    ubu[0] = 1000;
+    lbu[1] = -1000;
+    ubu[1] = 1000;
+    lbu[2] = -1000;
+    ubu[2] = 1000;
+    lbu[3] = -1000;
+    ubu[3] = 1000;
 
     for (int i = 0; i < N; i++)
     {
@@ -667,10 +667,10 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubx = calloc(2*NBX, sizeof(double));
     double* lbx = lubx;
     double* ubx = lubx + NBX;
-    ubx[0] = 186;
-    ubx[1] = 186;
-    ubx[2] = 186;
-    ubx[3] = 186;
+    ubx[0] = 143;
+    ubx[1] = 143;
+    ubx[2] = 143;
+    ubx[3] = 143;
 
     for (int i = 1; i < N; i++)
     {
