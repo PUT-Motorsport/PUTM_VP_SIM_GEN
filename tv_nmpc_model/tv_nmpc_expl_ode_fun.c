@@ -159,8 +159,8 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   w20 += w24;
   /* #29: @24 = fabs(@20) */
   w24 = casadi_fabs( w20 );
-  /* #30: @25 = 0.001 */
-  w25 = 1.0000000000000000e-03;
+  /* #30: @25 = 1 */
+  w25 = 1.;
   /* #31: @24 = (@24<@25) */
   w24  = (w24<w25);
   /* #32: @26 = (@24?@25:0) */

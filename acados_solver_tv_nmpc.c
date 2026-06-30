@@ -541,22 +541,6 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* zl = zlumem+NS*2;
     double* zu = zlumem+NS*3;
     // change only the non-zero elements:
-    Zl[0] = 10;
-    Zl[1] = 10;
-    Zl[2] = 10;
-    Zl[3] = 10;
-    Zu[0] = 10;
-    Zu[1] = 10;
-    Zu[2] = 10;
-    Zu[3] = 10;
-    zl[0] = 100;
-    zl[1] = 100;
-    zl[2] = 100;
-    zl[3] = 100;
-    zu[0] = 100;
-    zu[1] = 100;
-    zu[2] = 100;
-    zu[3] = 100;
 
     for (int i = 1; i < N; i++)
     {
