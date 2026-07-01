@@ -466,34 +466,44 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     {
         // set time_steps
     
-        double time_step = 0.015;
+        double time_step = 0.01;
         for (int i = 0; i < N; i++)
         {
             ocp_nlp_in_set(nlp_config, nlp_dims, nlp_in, i, "Ts", &time_step);
         }
         // set cost scaling
         double* cost_scaling = malloc((N+1)*sizeof(double));
-        cost_scaling[0] = 0.015;
-        cost_scaling[1] = 0.015;
-        cost_scaling[2] = 0.015;
-        cost_scaling[3] = 0.015;
-        cost_scaling[4] = 0.015;
-        cost_scaling[5] = 0.015;
-        cost_scaling[6] = 0.015;
-        cost_scaling[7] = 0.015;
-        cost_scaling[8] = 0.015;
-        cost_scaling[9] = 0.015;
-        cost_scaling[10] = 0.015;
-        cost_scaling[11] = 0.015;
-        cost_scaling[12] = 0.015;
-        cost_scaling[13] = 0.015;
-        cost_scaling[14] = 0.015;
-        cost_scaling[15] = 0.015;
-        cost_scaling[16] = 0.015;
-        cost_scaling[17] = 0.015;
-        cost_scaling[18] = 0.015;
-        cost_scaling[19] = 0.015;
-        cost_scaling[20] = 1;
+        cost_scaling[0] = 0.01;
+        cost_scaling[1] = 0.01;
+        cost_scaling[2] = 0.01;
+        cost_scaling[3] = 0.01;
+        cost_scaling[4] = 0.01;
+        cost_scaling[5] = 0.01;
+        cost_scaling[6] = 0.01;
+        cost_scaling[7] = 0.01;
+        cost_scaling[8] = 0.01;
+        cost_scaling[9] = 0.01;
+        cost_scaling[10] = 0.01;
+        cost_scaling[11] = 0.01;
+        cost_scaling[12] = 0.01;
+        cost_scaling[13] = 0.01;
+        cost_scaling[14] = 0.01;
+        cost_scaling[15] = 0.01;
+        cost_scaling[16] = 0.01;
+        cost_scaling[17] = 0.01;
+        cost_scaling[18] = 0.01;
+        cost_scaling[19] = 0.01;
+        cost_scaling[20] = 0.01;
+        cost_scaling[21] = 0.01;
+        cost_scaling[22] = 0.01;
+        cost_scaling[23] = 0.01;
+        cost_scaling[24] = 0.01;
+        cost_scaling[25] = 0.01;
+        cost_scaling[26] = 0.01;
+        cost_scaling[27] = 0.01;
+        cost_scaling[28] = 0.01;
+        cost_scaling[29] = 0.01;
+        cost_scaling[30] = 1;
         for (int i = 0; i <= N; i++)
         {
             ocp_nlp_cost_model_set(nlp_config, nlp_dims, nlp_in, i, "scaling", &cost_scaling[i]);
@@ -541,6 +551,22 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* zl = zlumem+NS*2;
     double* zu = zlumem+NS*3;
     // change only the non-zero elements:
+    Zl[0] = 0.01;
+    Zl[1] = 0.01;
+    Zl[2] = 0.01;
+    Zl[3] = 0.01;
+    Zu[0] = 0.01;
+    Zu[1] = 0.01;
+    Zu[2] = 0.01;
+    Zu[3] = 0.01;
+    zl[0] = 10;
+    zl[1] = 10;
+    zl[2] = 10;
+    zl[3] = 10;
+    zu[0] = 10;
+    zu[1] = 10;
+    zu[2] = 10;
+    zu[3] = 10;
 
     for (int i = 1; i < N; i++)
     {
@@ -617,14 +643,14 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubu = calloc(2*NBU, sizeof(double));
     double* lbu = lubu;
     double* ubu = lubu + NBU;
-    lbu[0] = -1000;
-    ubu[0] = 1000;
-    lbu[1] = -1000;
-    ubu[1] = 1000;
-    lbu[2] = -1000;
-    ubu[2] = 1000;
-    lbu[3] = -1000;
-    ubu[3] = 1000;
+    lbu[0] = -2000;
+    ubu[0] = 2000;
+    lbu[1] = -2000;
+    ubu[1] = 2000;
+    lbu[2] = -2000;
+    ubu[2] = 2000;
+    lbu[3] = -2000;
+    ubu[3] = 2000;
 
     for (int i = 0; i < N; i++)
     {
@@ -642,28 +668,6 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
     /* Path constraints */
 
-    // x
-    int* idxbx = malloc(NBX * sizeof(int));
-    idxbx[0] = 7;
-    idxbx[1] = 8;
-    idxbx[2] = 9;
-    idxbx[3] = 10;
-    double* lubx = calloc(2*NBX, sizeof(double));
-    double* lbx = lubx;
-    double* ubx = lubx + NBX;
-    ubx[0] = 107.8;
-    ubx[1] = 107.8;
-    ubx[2] = 107.8;
-    ubx[3] = 107.8;
-
-    for (int i = 1; i < N; i++)
-    {
-        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxbx", idxbx);
-        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lbx", lbx);
-        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "ubx", ubx);
-    }
-    free(idxbx);
-    free(lubx);
 
 
     // set up nonlinear constraints for stage 1 to N-1
@@ -804,7 +808,7 @@ static void tv_nmpc_acados_create_set_opts(tv_nmpc_solver_capsule* capsule)
     ocp_nlp_solver_opts_set(nlp_config, nlp_opts, "levenberg_marquardt", &levenberg_marquardt);
 
     /* options QP solver */
-    int qp_solver_cond_N;const int qp_solver_cond_N_ori = 20;
+    int qp_solver_cond_N;const int qp_solver_cond_N_ori = 30;
     qp_solver_cond_N = N < qp_solver_cond_N_ori ? N : qp_solver_cond_N_ori; // use the minimum value here
     ocp_nlp_solver_opts_set(nlp_config, nlp_opts, "qp_cond_N", &qp_solver_cond_N);
 

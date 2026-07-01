@@ -73,7 +73,7 @@ int tv_nmpc_acados_sim_create(tv_nmpc_sim_solver_capsule * capsule)
     const int np = TV_NMPC_NP;
     bool tmp_bool;
 
-    double Tsim = 0.015;
+    double Tsim = 0.01;
 
     external_function_opts ext_fun_opts;
     external_function_opts_set_to_default(&ext_fun_opts);

@@ -41,7 +41,7 @@
 #define TV_NMPC_NU     4
 #define TV_NMPC_NP     8
 #define TV_NMPC_NP_GLOBAL     0
-#define TV_NMPC_NBX    4
+#define TV_NMPC_NBX    0
 #define TV_NMPC_NBX0   11
 #define TV_NMPC_NBU    4
 #define TV_NMPC_NSBX   0
@@ -64,7 +64,7 @@
 #define TV_NMPC_NY0    0
 #define TV_NMPC_NY     0
 #define TV_NMPC_NYN    0
-#define TV_NMPC_N      20
+#define TV_NMPC_N      30
 #define TV_NMPC_NH     4
 #define TV_NMPC_NHN    0
 #define TV_NMPC_NH0    0
