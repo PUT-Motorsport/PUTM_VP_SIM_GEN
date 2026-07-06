@@ -544,8 +544,8 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   w64 -= w72;
   /* #207: output[0][7] = @64 */
   if (res[0]) res[0][7] = w64;
-  /* #208: @64 = 120 */
-  w64 = 120.;
+  /* #208: @64 = 143 */
+  w64 = 143.;
   /* #209: @69 = (@69-@64) */
   w69 -= w64;
   /* #210: output[0][8] = @69 */

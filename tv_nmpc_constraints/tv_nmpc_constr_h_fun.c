@@ -496,8 +496,8 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   w06 -= w05;
   /* #207: output[0][7] = @6 */
   if (res[0]) res[0][7] = w06;
-  /* #208: @6 = 120 */
-  w06 = 120.;
+  /* #208: @6 = 143 */
+  w06 = 143.;
   /* #209: @8 = (@8-@6) */
   w08 -= w06;
   /* #210: output[0][8] = @8 */
