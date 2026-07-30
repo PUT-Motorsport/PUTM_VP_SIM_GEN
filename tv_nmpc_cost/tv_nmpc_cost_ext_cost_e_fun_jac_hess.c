@@ -99,8 +99,8 @@ static const casadi_real casadi_zeros[11] =
 static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem) {
   casadi_real *rr, w0, w2, w4;
   const casadi_real *cs, *wr1, *wr3;
-  /* #0: @0 = 1000 */
-  w0 = 1000.;
+  /* #0: @0 = 500 */
+  w0 = 500.;
   /* #1: @1 = input[0][0] */
   wr1 = arg[0] ? arg[0] : casadi_zeros;
   /* #2: @2 = @1[2] */
@@ -130,8 +130,8 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   if (res[1]) res[1][0] = w2;
   /* #14: @2 = zeros(11x11,1nz) */
   w2 = 0.;
-  /* #15: @0 = 2000 */
-  w0 = 2000.;
+  /* #15: @0 = 1000 */
+  w0 = 1000.;
   /* #16: (@4[0] += @0) */
   for (rr=(&w4)+0, cs=(&w0); rr!=(&w4)+1; rr+=1) *rr += *cs++;
   /* #17: @0 = @4[0] */
