@@ -685,10 +685,10 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubx = calloc(2*NBX, sizeof(double));
     double* lbx = lubx;
     double* ubx = lubx + NBX;
-    ubx[0] = 108;
-    ubx[1] = 108;
-    ubx[2] = 108;
-    ubx[3] = 108;
+    ubx[0] = 143;
+    ubx[1] = 143;
+    ubx[2] = 143;
+    ubx[3] = 143;
 
     for (int i = 1; i < N; i++)
     {
