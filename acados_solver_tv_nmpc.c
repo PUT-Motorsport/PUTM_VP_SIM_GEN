@@ -551,54 +551,30 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* zl = zlumem+NS*2;
     double* zu = zlumem+NS*3;
     // change only the non-zero elements:
-    Zl[0] = 0.01;
-    Zl[1] = 0.01;
-    Zl[2] = 0.01;
-    Zl[3] = 0.01;
-    Zl[4] = 0.01;
-    Zl[5] = 0.01;
-    Zl[6] = 0.01;
-    Zl[7] = 0.01;
-    Zl[8] = 0.01;
-    Zl[9] = 0.01;
-    Zl[10] = 0.01;
-    Zl[11] = 0.01;
-    Zu[0] = 0.01;
-    Zu[1] = 0.01;
-    Zu[2] = 0.01;
-    Zu[3] = 0.01;
-    Zu[4] = 0.01;
-    Zu[5] = 0.01;
-    Zu[6] = 0.01;
-    Zu[7] = 0.01;
-    Zu[8] = 0.01;
-    Zu[9] = 0.01;
-    Zu[10] = 0.01;
-    Zu[11] = 0.01;
-    zl[0] = 100;
-    zl[1] = 100;
-    zl[2] = 100;
-    zl[3] = 100;
-    zl[4] = 100;
-    zl[5] = 100;
-    zl[6] = 100;
-    zl[7] = 100;
-    zl[8] = 100;
-    zl[9] = 100;
-    zl[10] = 100;
-    zl[11] = 100;
-    zu[0] = 100;
-    zu[1] = 100;
-    zu[2] = 100;
-    zu[3] = 100;
-    zu[4] = 100;
-    zu[5] = 100;
-    zu[6] = 100;
-    zu[7] = 100;
-    zu[8] = 100;
-    zu[9] = 100;
-    zu[10] = 100;
-    zu[11] = 100;
+    Zl[0] = 4;
+    Zl[1] = 4;
+    Zl[2] = 4;
+    Zl[3] = 4;
+    Zl[4] = 100;
+    Zl[5] = 100;
+    Zl[6] = 100;
+    Zl[7] = 100;
+    Zu[0] = 4;
+    Zu[1] = 4;
+    Zu[2] = 4;
+    Zu[3] = 4;
+    Zu[4] = 100;
+    Zu[5] = 100;
+    Zu[6] = 100;
+    Zu[7] = 100;
+    zl[4] = 1;
+    zl[5] = 1;
+    zl[6] = 1;
+    zl[7] = 1;
+    zu[4] = 1;
+    zu[5] = 1;
+    zu[6] = 1;
+    zu[7] = 1;
 
     for (int i = 1; i < N; i++)
     {
@@ -700,6 +676,28 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
     /* Path constraints */
 
+    // x
+    int* idxbx = malloc(NBX * sizeof(int));
+    idxbx[0] = 7;
+    idxbx[1] = 8;
+    idxbx[2] = 9;
+    idxbx[3] = 10;
+    double* lubx = calloc(2*NBX, sizeof(double));
+    double* lbx = lubx;
+    double* ubx = lubx + NBX;
+    ubx[0] = 108;
+    ubx[1] = 108;
+    ubx[2] = 108;
+    ubx[3] = 108;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxbx", idxbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lbx", lbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "ubx", ubx);
+    }
+    free(idxbx);
+    free(lubx);
 
 
     // set up nonlinear constraints for stage 1 to N-1
@@ -727,6 +725,30 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
 
 
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "idxsbx", idxsbx);
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "lsbx", lsbx);
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "usbx", usbx);
+
+    // soft bounds on x
+    int* idxsbx = malloc(NSBX * sizeof(int));
+    idxsbx[0] = 0;
+    idxsbx[1] = 1;
+    idxsbx[2] = 2;
+    idxsbx[3] = 3;
+
+    double* lusbx = calloc(2*NSBX, sizeof(double));
+    double* lsbx = lusbx;
+    double* usbx = lusbx + NSBX;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxsbx", idxsbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lsbx", lsbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "usbx", usbx);
+    }
+    free(idxsbx);
+    free(lusbx);
+
 
     // set up soft bounds for nonlinear constraints
     int* idxsh = malloc(NSH * sizeof(int));
@@ -734,14 +756,6 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     idxsh[1] = 1;
     idxsh[2] = 2;
     idxsh[3] = 3;
-    idxsh[4] = 4;
-    idxsh[5] = 5;
-    idxsh[6] = 6;
-    idxsh[7] = 7;
-    idxsh[8] = 8;
-    idxsh[9] = 9;
-    idxsh[10] = 10;
-    idxsh[11] = 11;
     double* lush = calloc(2*NSH, sizeof(double));
     double* lsh = lush;
     double* ush = lush + NSH;

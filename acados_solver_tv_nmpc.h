@@ -41,12 +41,12 @@
 #define TV_NMPC_NU     4
 #define TV_NMPC_NP     8
 #define TV_NMPC_NP_GLOBAL     0
-#define TV_NMPC_NBX    0
+#define TV_NMPC_NBX    4
 #define TV_NMPC_NBX0   11
 #define TV_NMPC_NBU    4
-#define TV_NMPC_NSBX   0
+#define TV_NMPC_NSBX   4
 #define TV_NMPC_NSBU   0
-#define TV_NMPC_NSH    12
+#define TV_NMPC_NSH    4
 #define TV_NMPC_NSH0   0
 #define TV_NMPC_NSG    0
 #define TV_NMPC_NSPHI  0
@@ -55,7 +55,7 @@
 #define TV_NMPC_NSPHIN 0
 #define TV_NMPC_NSPHI0 0
 #define TV_NMPC_NSBXN  0
-#define TV_NMPC_NS     12
+#define TV_NMPC_NS     8
 #define TV_NMPC_NS0    0
 #define TV_NMPC_NSN    0
 #define TV_NMPC_NG     0
@@ -65,7 +65,7 @@
 #define TV_NMPC_NY     0
 #define TV_NMPC_NYN    0
 #define TV_NMPC_N      30
-#define TV_NMPC_NH     12
+#define TV_NMPC_NH     4
 #define TV_NMPC_NHN    0
 #define TV_NMPC_NH0    0
 #define TV_NMPC_NPHI0  0
