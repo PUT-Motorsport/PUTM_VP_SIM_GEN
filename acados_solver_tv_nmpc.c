@@ -551,30 +551,38 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* zl = zlumem+NS*2;
     double* zu = zlumem+NS*3;
     // change only the non-zero elements:
-    Zl[0] = 4;
-    Zl[1] = 4;
-    Zl[2] = 4;
-    Zl[3] = 4;
-    Zl[4] = 100;
-    Zl[5] = 100;
-    Zl[6] = 100;
-    Zl[7] = 100;
-    Zu[0] = 4;
-    Zu[1] = 4;
-    Zu[2] = 4;
-    Zu[3] = 4;
-    Zu[4] = 100;
-    Zu[5] = 100;
-    Zu[6] = 100;
-    Zu[7] = 100;
-    zl[4] = 1;
-    zl[5] = 1;
-    zl[6] = 1;
-    zl[7] = 1;
-    zu[4] = 1;
-    zu[5] = 1;
-    zu[6] = 1;
-    zu[7] = 1;
+    Zl[0] = 1000;
+    Zl[1] = 1000;
+    Zl[2] = 1000;
+    Zl[3] = 1000;
+    Zl[4] = 1000;
+    Zl[5] = 1000;
+    Zl[6] = 1000;
+    Zl[7] = 1000;
+    Zu[0] = 1000;
+    Zu[1] = 1000;
+    Zu[2] = 1000;
+    Zu[3] = 1000;
+    Zu[4] = 1000;
+    Zu[5] = 1000;
+    Zu[6] = 1000;
+    Zu[7] = 1000;
+    zl[0] = 10;
+    zl[1] = 10;
+    zl[2] = 10;
+    zl[3] = 10;
+    zl[4] = 100;
+    zl[5] = 100;
+    zl[6] = 100;
+    zl[7] = 100;
+    zu[0] = 10;
+    zu[1] = 10;
+    zu[2] = 10;
+    zu[3] = 10;
+    zu[4] = 100;
+    zu[5] = 100;
+    zu[6] = 100;
+    zu[7] = 100;
 
     for (int i = 1; i < N; i++)
     {
@@ -685,10 +693,10 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* lubx = calloc(2*NBX, sizeof(double));
     double* lbx = lubx;
     double* ubx = lubx + NBX;
-    ubx[0] = 143;
-    ubx[1] = 143;
-    ubx[2] = 143;
-    ubx[3] = 143;
+    ubx[0] = 150;
+    ubx[1] = 150;
+    ubx[2] = 150;
+    ubx[3] = 150;
 
     for (int i = 1; i < N; i++)
     {
