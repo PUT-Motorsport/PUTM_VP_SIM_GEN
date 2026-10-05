@@ -7,21 +7,22 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.55
- * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Mon Nov  3 18:13:48 2025
+ * Model version                  : 5.4
+ * Simulink Coder version         : 24.2 (R2024b) 21-Jun-2024
+ * C/C++ source code generated on : Mon Oct  5 22:09:03 2026
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Linux 64)
+ * Embedded hardware selection: Intel->x86-64 (Windows64)
  * Code generation objectives: Unspecified
  * Validation result: Not run
  */
 
-#ifndef RTW_HEADER_tv_code_private_h_
-#define RTW_HEADER_tv_code_private_h_
+#ifndef tv_code_private_h_
+#define tv_code_private_h_
 #include "rtwtypes.h"
-#include "tv_code.h"
 #include "tv_code_types.h"
+#include "rtw_continuous.h"
+#include "rtw_solver.h"
 
 /* Private macros used by the generated code to access rtModel */
 #ifndef rtmIsMajorTimeStep
@@ -36,19 +37,10 @@
 #define rtmSetTPtr(rtm, val)           ((rtm)->Timing.t = (val))
 #endif
 
-extern void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW);
-extern void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
-  DW_ax_filter_tv_code_T *localDW);
-extern void tv_code_speed_filter_fl_Init(DW_speed_filter_fl_tv_code_T *localDW);
-extern void tv_code_speed_filter_fl(real_T rtu_0, B_speed_filter_fl_tv_code_T
-  *localB, DW_speed_filter_fl_tv_code_T *localDW);
-extern void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW);
-extern void tv_code_speed_filter_fl_Term(DW_speed_filter_fl_tv_code_T *localDW);
-
 /* private model entry point functions */
 extern void tv_code_derivatives(void);
 
-#endif                                 /* RTW_HEADER_tv_code_private_h_ */
+#endif                                 /* tv_code_private_h_ */
 
 /*
  * File trailer for generated code.

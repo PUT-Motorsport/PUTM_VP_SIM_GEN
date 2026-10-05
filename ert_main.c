@@ -7,12 +7,12 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.55
- * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Mon Nov  3 18:13:48 2025
+ * Model version                  : 5.4
+ * Simulink Coder version         : 24.2 (R2024b) 21-Jun-2024
+ * C/C++ source code generated on : Mon Oct  5 22:09:03 2026
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Linux 64)
+ * Embedded hardware selection: Intel->x86-64 (Windows64)
  * Code generation objectives: Unspecified
  * Validation result: Not run
  */
@@ -82,8 +82,8 @@ int_T main(int_T argc, const char *argv[])
   /* Simulating the model step behavior (in non real-time) to
    *  simulate model behavior at stop time.
    */
-  while ((rtmGetErrorStatus(tv_code_M) == (NULL)) && !rtmGetStopRequested
-         (tv_code_M)) {
+  while (rtmGetErrorStatus(tv_code_M) == (NULL)&& !rtmGetStopRequested(tv_code_M))
+  {
     rt_OneStep();
   }
 
