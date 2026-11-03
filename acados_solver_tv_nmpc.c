@@ -551,54 +551,38 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     double* zl = zlumem+NS*2;
     double* zu = zlumem+NS*3;
     // change only the non-zero elements:
-    Zl[0] = 0.01;
-    Zl[1] = 0.01;
-    Zl[2] = 0.01;
-    Zl[3] = 0.01;
-    Zl[4] = 0.01;
-    Zl[5] = 0.01;
-    Zl[6] = 0.01;
-    Zl[7] = 0.01;
-    Zl[8] = 0.01;
-    Zl[9] = 0.01;
-    Zl[10] = 0.01;
-    Zl[11] = 0.01;
-    Zu[0] = 0.01;
-    Zu[1] = 0.01;
-    Zu[2] = 0.01;
-    Zu[3] = 0.01;
-    Zu[4] = 0.01;
-    Zu[5] = 0.01;
-    Zu[6] = 0.01;
-    Zu[7] = 0.01;
-    Zu[8] = 0.01;
-    Zu[9] = 0.01;
-    Zu[10] = 0.01;
-    Zu[11] = 0.01;
-    zl[0] = 100;
-    zl[1] = 100;
-    zl[2] = 100;
-    zl[3] = 100;
+    Zl[0] = 1000;
+    Zl[1] = 1000;
+    Zl[2] = 1000;
+    Zl[3] = 1000;
+    Zl[4] = 1000;
+    Zl[5] = 1000;
+    Zl[6] = 1000;
+    Zl[7] = 1000;
+    Zu[0] = 1000;
+    Zu[1] = 1000;
+    Zu[2] = 1000;
+    Zu[3] = 1000;
+    Zu[4] = 1000;
+    Zu[5] = 1000;
+    Zu[6] = 1000;
+    Zu[7] = 1000;
+    zl[0] = 10;
+    zl[1] = 10;
+    zl[2] = 10;
+    zl[3] = 10;
     zl[4] = 100;
     zl[5] = 100;
     zl[6] = 100;
     zl[7] = 100;
-    zl[8] = 100;
-    zl[9] = 100;
-    zl[10] = 100;
-    zl[11] = 100;
-    zu[0] = 100;
-    zu[1] = 100;
-    zu[2] = 100;
-    zu[3] = 100;
+    zu[0] = 10;
+    zu[1] = 10;
+    zu[2] = 10;
+    zu[3] = 10;
     zu[4] = 100;
     zu[5] = 100;
     zu[6] = 100;
     zu[7] = 100;
-    zu[8] = 100;
-    zu[9] = 100;
-    zu[10] = 100;
-    zu[11] = 100;
 
     for (int i = 1; i < N; i++)
     {
@@ -700,6 +684,32 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
     /* Path constraints */
 
+    // x
+    int* idxbx = malloc(NBX * sizeof(int));
+    idxbx[0] = 7;
+    idxbx[1] = 8;
+    idxbx[2] = 9;
+    idxbx[3] = 10;
+    double* lubx = calloc(2*NBX, sizeof(double));
+    double* lbx = lubx;
+    double* ubx = lubx + NBX;
+    lbx[0] = -50;
+    ubx[0] = 220;
+    lbx[1] = -50;
+    ubx[1] = 220;
+    lbx[2] = -50;
+    ubx[2] = 220;
+    lbx[3] = -50;
+    ubx[3] = 220;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxbx", idxbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lbx", lbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "ubx", ubx);
+    }
+    free(idxbx);
+    free(lubx);
 
 
     // set up nonlinear constraints for stage 1 to N-1
@@ -727,6 +737,30 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
 
 
 
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "idxsbx", idxsbx);
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "lsbx", lsbx);
+    // ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, 0, "usbx", usbx);
+
+    // soft bounds on x
+    int* idxsbx = malloc(NSBX * sizeof(int));
+    idxsbx[0] = 0;
+    idxsbx[1] = 1;
+    idxsbx[2] = 2;
+    idxsbx[3] = 3;
+
+    double* lusbx = calloc(2*NSBX, sizeof(double));
+    double* lsbx = lusbx;
+    double* usbx = lusbx + NSBX;
+
+    for (int i = 1; i < N; i++)
+    {
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "idxsbx", idxsbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "lsbx", lsbx);
+        ocp_nlp_constraints_model_set(nlp_config, nlp_dims, nlp_in, nlp_out, i, "usbx", usbx);
+    }
+    free(idxsbx);
+    free(lusbx);
+
 
     // set up soft bounds for nonlinear constraints
     int* idxsh = malloc(NSH * sizeof(int));
@@ -734,14 +768,6 @@ void tv_nmpc_acados_setup_nlp_in(tv_nmpc_solver_capsule* capsule, const int N, d
     idxsh[1] = 1;
     idxsh[2] = 2;
     idxsh[3] = 3;
-    idxsh[4] = 4;
-    idxsh[5] = 5;
-    idxsh[6] = 6;
-    idxsh[7] = 7;
-    idxsh[8] = 8;
-    idxsh[9] = 9;
-    idxsh[10] = 10;
-    idxsh[11] = 11;
     double* lush = calloc(2*NSH, sizeof(double));
     double* lsh = lush;
     double* ush = lush + NSH;
